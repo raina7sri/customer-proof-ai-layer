@@ -7,7 +7,7 @@ A front-end-only interactive prototype. All content is hard-coded synthetic samp
 Aurics palette wired as semantic tokens in `src/styles.css` (oklch equivalents of):
 Midnight Plum `#120D22`, Deep Plum `#24143F`, Strategic Violet `#5B44D4`, Pothos Green `#3F8F4E`, Signal Yellow `#F4CC48`, Warm White `#F8F5EC`.
 
-Rules applied throughout: no orange, no gradients, no glossy AI look, no stock imagery or 3D. Generous whitespace, hairline dividers, plum text on warm white, violet for structure/actions, green only for approval/positive status, yellow only for proof/data/warning emphasis. Typography: one restrained sans pairing (loaded via `<link>` in the root route), tight tracking on labels, uppercase micro-labels for field names.
+Rules applied throughout: no orange. Generous whitespace, hairline dividers, plum text on warm white, violet for structure/actions, green only for approval/positive status, yellow only for proof/data/warning emphasis. Typography: one restrained sans pairing (loaded via `<link>` in the root route), tight tracking on labels, uppercase micro-labels for field names.
 
 ## Screens and flow
 
