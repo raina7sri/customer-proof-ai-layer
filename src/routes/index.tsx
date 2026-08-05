@@ -44,6 +44,7 @@ function Index() {
     setNotes,
     setUsedOwnNotes,
     setRecordGenerated,
+    setCustomRecord,
   } = useDemo();
 
   const runSample = () => {
@@ -55,6 +56,7 @@ function Index() {
 
   const runOwn = () => {
     setUsedOwnNotes(true);
+    setCustomRecord(null);
     setRecordGenerated(false);
     navigate({ to: "/create" });
   };
@@ -62,6 +64,7 @@ function Index() {
   const startBlank = () => {
     setUsedOwnNotes(true);
     setNotes("");
+    setCustomRecord(null);
     setRecordGenerated(false);
     navigate({ to: "/create" });
   };
@@ -157,7 +160,9 @@ function Index() {
           <MicroLabel>Right · Your material</MicroLabel>
           <h2 className="mt-2 text-lg font-semibold text-plum">Enter your own customer notes</h2>
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-            Nothing is stored. This prototype structures your text into the same record format.
+            Nothing is stored. Your text is read and structured into the same record format, with
+            conservative governance defaults: internal use, internal review, and no quantified
+            claim unless the material says the customer approved it.
           </p>
           <textarea
             value={notes}
@@ -171,7 +176,8 @@ function Index() {
           />
           <button
             onClick={runOwn}
-            className="mt-4 border border-plum/25 px-5 py-2.5 text-sm font-medium text-plum transition-colors hover:border-violet hover:text-violet"
+            disabled={notes.trim().length < 40}
+            className="mt-4 border border-plum/25 px-5 py-2.5 text-sm font-medium text-plum transition-colors hover:border-violet hover:text-violet disabled:opacity-40"
           >
             Continue with my notes
           </button>
