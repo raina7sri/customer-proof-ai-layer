@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CreateRouteImport } from './routes/create'
 import { Route as RecordRouteImport } from './routes/record'
+import { Route as UseRouteImport } from './routes/use'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const RecordRoute = RecordRouteImport.update({
   path: '/record',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UseRoute = UseRouteImport.update({
+  id: '/use',
+  path: '/use',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
   '/record': typeof RecordRoute
+  '/use': typeof UseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
   '/record': typeof RecordRoute
+  '/use': typeof UseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
   '/record': typeof RecordRoute
+  '/use': typeof UseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/create' | '/record'
+  fullPaths: '/' | '/create' | '/record' | '/use'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/create' | '/record'
-  id: '__root__' | '/' | '/create' | '/record'
+  to: '/' | '/create' | '/record' | '/use'
+  id: '__root__' | '/' | '/create' | '/record' | '/use'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CreateRoute: typeof CreateRoute
   RecordRoute: typeof RecordRoute
+  UseRoute: typeof UseRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RecordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/use': {
+      id: '/use'
+      path: '/use'
+      fullPath: '/use'
+      preLoaderRoute: typeof UseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CreateRoute: CreateRoute,
   RecordRoute: RecordRoute,
+  UseRoute: UseRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
