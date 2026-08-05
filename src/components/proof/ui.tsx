@@ -167,7 +167,30 @@ export function CheckMark() {
   );
 }
 
-export function ExclusionNote() {
+export function ExclusionNote({ record }: { record?: ProofRecord }) {
+  const custom = record?.excludedClaims ?? [];
+  if (record?.source === "notes") {
+    return (
+      <div className="border-l-2 border-signal pl-3">
+        <MicroLabel className="mb-1">Excluded from output</MicroLabel>
+        {custom.length === 0 ? (
+          <p className="text-xs leading-relaxed text-plum">
+            No claim needed removal, but this record is not human-approved, so external use
+            stays blocked until permission and approval are confirmed.
+          </p>
+        ) : (
+          <ul className="space-y-2">
+            {custom.map((c) => (
+              <li key={c.claim} className="text-xs leading-relaxed text-plum">
+                <span className="font-medium">{c.claim}</span>
+                <span className="block text-muted-foreground">{c.reason}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  }
   return (
     <div className="border-l-2 border-signal pl-3">
       <MicroLabel className="mb-1">Excluded from output</MicroLabel>

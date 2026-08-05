@@ -38,6 +38,8 @@ export type ProofRecord = {
   primaryOutputCopy: string;
   claimReview: { ai: string; approved: string };
   reuseCount: number;
+  source?: "sample" | "notes";
+  excludedClaims?: { claim: string; reason: string }[];
 };
 
 export const SAMPLE_DISCLAIMER =
