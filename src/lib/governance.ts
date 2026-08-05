@@ -70,7 +70,7 @@ export const UPDATE_TRIGGERS = [
 export function generateOutput(record: ProofRecord, output: OutputDefinition): string {
   switch (output.id) {
     case "sales-outreach":
-      return `For a buyer facing: ${record.buyerProblem.toLowerCase().replace(/\.$/, "")}. Approved proof to reference: ${record.approvedProof} Position this as evidence of direction, not as validated enterprise ROI.`;
+      return `Use this when a buyer raises this concern: ${record.buyerProblem} Approved proof to reference: ${record.approvedProof} Position this as evidence of direction, not as validated enterprise ROI.`;
     case "expansion-note":
       return `Account context: ${record.customerContext} Expansion angle: ${record.proofPriority} Approved evidence: ${record.approvedProof}`;
     case "case-study-brief":
