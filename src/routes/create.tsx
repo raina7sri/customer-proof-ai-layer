@@ -1,8 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { useEffect, useRef, useState } from "react";
 import { PROCESSING_STEPS } from "@/data/proof-records";
 import { useDemo } from "@/components/proof/demo-state";
 import { CheckMark, MicroLabel, SampleDisclaimer, SectionHeading } from "@/components/proof/ui";
+import { extractProofRecord } from "@/lib/extract.functions";
 
 export const Route = createFileRoute("/create")({
   head: () => ({
@@ -26,12 +28,17 @@ export const Route = createFileRoute("/create")({
 
 function CreatePage() {
   const navigate = useNavigate();
-  const { record, notes, setNotes, usedOwnNotes, setRecordGenerated } = useDemo();
+  const { record, notes, setNotes, usedOwnNotes, setRecordGenerated, setCustomRecord } =
+    useDemo();
+  const extract = useServerFn(extractProofRecord);
   const [running, setRunning] = useState(false);
   const [step, setStep] = useState(-1);
+  const [error, setError] = useState<string | null>(null);
+  const doneRef = useRef(false);
 
+  // Sample path: deterministic, no AI call.
   useEffect(() => {
-    if (!running) return;
+    if (!running || usedOwnNotes) return;
     if (step >= PROCESSING_STEPS.length) {
       setRecordGenerated(true);
       const t = setTimeout(() => navigate({ to: "/record" }), 500);
@@ -39,11 +46,40 @@ function CreatePage() {
     }
     const t = setTimeout(() => setStep((s) => s + 1), 620);
     return () => clearTimeout(t);
-  }, [running, step, navigate, setRecordGenerated]);
+  }, [running, usedOwnNotes, step, navigate, setRecordGenerated]);
 
-  const start = () => {
+  // Own-notes path: steps advance while the extraction call is in flight.
+  useEffect(() => {
+    if (!running || !usedOwnNotes) return;
+    if (doneRef.current) return;
+    if (step >= PROCESSING_STEPS.length - 1) return;
+    const t = setTimeout(() => setStep((s) => s + 1), 900);
+    return () => clearTimeout(t);
+  }, [running, usedOwnNotes, step]);
+
+  const start = async () => {
+    setError(null);
     setStep(0);
     setRunning(true);
+    if (!usedOwnNotes) return;
+    doneRef.current = false;
+    try {
+      const extracted = await extract({ data: { notes: source } });
+      doneRef.current = true;
+      setCustomRecord(extracted);
+      setRecordGenerated(true);
+      setStep(PROCESSING_STEPS.length);
+      setTimeout(() => navigate({ to: "/record" }), 400);
+    } catch (e) {
+      doneRef.current = true;
+      setRunning(false);
+      setStep(-1);
+      setError(
+        e instanceof Error
+          ? e.message
+          : "Extraction failed. Check the material and try again.",
+      );
+    }
   };
 
   const source = usedOwnNotes ? notes : notes.trim().length > 0 ? notes : record.rawNotes.join("\n");
@@ -53,7 +89,11 @@ function CreatePage() {
       <SectionHeading
         eyebrow="Step 1"
         title="Create Customer Proof Record"
-        description="Paste rough customer notes, transcript excerpt, or proof material. The structure is deterministic in this prototype — no claim is invented."
+        description={
+          usedOwnNotes
+            ? "Paste rough customer notes, transcript excerpt, or proof material. Your text is read and structured into a Customer Proof Record with conservative governance defaults — no claim is invented or upgraded."
+            : "Sample records are pre-structured, so this step replays the extraction sequence without inventing any claim."
+        }
       />
 
       <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr]">
@@ -71,13 +111,23 @@ function CreatePage() {
           <div className="mt-4 flex flex-wrap items-center gap-4">
             <button
               onClick={start}
-              disabled={running}
+              disabled={running || (usedOwnNotes && source.trim().length < 40)}
               className="bg-violet px-5 py-2.5 text-sm font-medium text-violet-foreground transition-colors hover:bg-plum disabled:opacity-50"
             >
-              {running ? "Generating…" : "Generate proof record"}
+              {running ? "Reading your material…" : "Generate proof record"}
             </button>
             <SampleDisclaimer />
           </div>
+          {error ? (
+            <p className="mt-4 border-l-2 border-destructive pl-3 text-xs leading-relaxed text-destructive">
+              {error}
+            </p>
+          ) : null}
+          {usedOwnNotes && !running && source.trim().length < 40 ? (
+            <p className="mt-3 text-[0.7rem] text-muted-foreground">
+              Paste at least a few lines of customer material to extract a record.
+            </p>
+          ) : null}
         </div>
 
         <div className="border border-hairline bg-card p-6">
