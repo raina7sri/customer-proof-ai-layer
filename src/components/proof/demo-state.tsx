@@ -23,7 +23,13 @@ type DemoState = {
   setSelectedOutputId: (id: OutputId | null) => void;
 };
 
-const DemoContext = createContext<DemoState | null>(null);
+// Keep a single context instance even if this module is evaluated twice
+// (route code-splitting / HMR can otherwise create duplicate contexts).
+const globalRef = globalThis as unknown as {
+  __demoContext?: React.Context<DemoState | null>;
+};
+const DemoContext =
+  globalRef.__demoContext ?? (globalRef.__demoContext = createContext<DemoState | null>(null));
 
 export function DemoProvider({ children }: { children: ReactNode }) {
   const [selectedRecordId, setSelectedRecordIdRaw] = useState(DEFAULT_RECORD_ID);
