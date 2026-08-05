@@ -11,6 +11,8 @@ type DemoState = {
   selectedRecordId: string;
   setSelectedRecordId: (id: string) => void;
   record: ProofRecord;
+  customRecord: ProofRecord | null;
+  setCustomRecord: (r: ProofRecord | null) => void;
   notes: string;
   setNotes: (v: string) => void;
   usedOwnNotes: boolean;
@@ -29,16 +31,21 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   const [usedOwnNotes, setUsedOwnNotes] = useState(false);
   const [recordGenerated, setRecordGenerated] = useState(false);
   const [selectedOutputId, setSelectedOutputId] = useState<OutputId | null>(null);
+  const [customRecord, setCustomRecord] = useState<ProofRecord | null>(null);
 
   const value = useMemo<DemoState>(() => {
-    const record = getRecord(selectedRecordId);
+    const record =
+      usedOwnNotes && customRecord ? customRecord : getRecord(selectedRecordId);
     return {
       selectedRecordId,
       setSelectedRecordId: (id: string) => {
         setSelectedRecordIdRaw(id);
         setSelectedOutputId(null);
+        setUsedOwnNotes(false);
       },
       record,
+      customRecord,
+      setCustomRecord,
       notes,
       setNotes,
       usedOwnNotes,
@@ -48,7 +55,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
       selectedOutputId,
       setSelectedOutputId,
     };
-  }, [selectedRecordId, notes, usedOwnNotes, recordGenerated, selectedOutputId]);
+  }, [selectedRecordId, notes, usedOwnNotes, recordGenerated, selectedOutputId, customRecord]);
 
   return <DemoContext.Provider value={value}>{children}</DemoContext.Provider>;
 }
