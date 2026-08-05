@@ -1,7 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PROOF_RECORDS, SAMPLE_DISCLAIMER } from "@/data/proof-records";
 import { useDemo } from "@/components/proof/demo-state";
-import { isPublicUseReady, UPDATE_TRIGGERS } from "@/lib/governance";
+import {
+  isPublicUseReady,
+  readinessLabel,
+  readinessReason,
+  UPDATE_TRIGGERS,
+} from "@/lib/governance";
 import {
   Badge,
   Divider,
@@ -70,10 +75,15 @@ function RecordPage() {
         <Panel className="p-7">
           <div className="flex flex-wrap items-baseline justify-between gap-3">
             <h2 className="text-lg font-semibold text-plum">{record.category}</h2>
-            <Badge tone={publicReady ? "approve" : "muted"}>
-              {publicReady ? "Public use ready" : "Not public-use ready"}
+            <Badge tone={publicReady ? "approve" : "signal"}>
+              {publicReady ? "Public use ready" : readinessLabel(record)}
             </Badge>
           </div>
+          {publicReady ? null : (
+            <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+              {readinessReason(record)}
+            </p>
+          )}
           <Divider className="my-6" />
           <dl className="space-y-6">
             {fields.map((f) => (
@@ -95,8 +105,12 @@ function RecordPage() {
         <div className="space-y-6">
           <div className="bg-plum p-6">
             <MicroLabel className="text-plum-foreground/55">
-              Human review · claim scope
+              Human review · claim scope (example)
             </MicroLabel>
+            <p className="mt-3 text-xs leading-relaxed text-plum-foreground/60">
+              Fixed illustrative example of the human review step. It is not derived from the
+              selected record. {SAMPLE_DISCLAIMER}
+            </p>
             <div className="mt-5">
               <span className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-signal">
                 AI extraction

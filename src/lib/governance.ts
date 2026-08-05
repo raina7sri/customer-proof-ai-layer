@@ -61,6 +61,31 @@ export function isPublicUseReady(record: ProofRecord): boolean {
   );
 }
 
+export function readinessLabel(record: ProofRecord): string {
+  if (isPublicUseReady(record)) return "Public use ready";
+  if (record.useControls.permission !== "Public use") {
+    return `${record.useControls.permission} only`;
+  }
+  if (record.useControls.approvalStatus !== "Ready to use") {
+    return "Public use pending external approval";
+  }
+  return "Public use pending review";
+}
+
+export function readinessReason(record: ProofRecord): string {
+  const { permission, approvalStatus } = record.useControls;
+  if (permission !== "Public use") {
+    return `Permission is ${permission.toLowerCase()}, so this proof can be reused internally but not published externally.`;
+  }
+  if (approvalStatus !== "Ready to use") {
+    return `Permission allows public use, but approval status is ${approvalStatus.toLowerCase()}. External approval is the remaining step before publishing.`;
+  }
+  if (record.updateFlag) {
+    return "An update trigger is active, so external reuse is paused until the record is refreshed.";
+  }
+  return "Evidence strength is not yet sourced and approved.";
+}
+
 export const UPDATE_TRIGGERS = [
   "Product or message changed",
   "Claim changed from approved record",

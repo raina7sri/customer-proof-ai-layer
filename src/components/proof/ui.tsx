@@ -114,7 +114,7 @@ export function UseControls({ record }: { record: ProofRecord }) {
         <MicroLabel className="mb-2">Evidence strength</MicroLabel>
         <div className="flex flex-wrap gap-1.5">
           {evidenceStrength.map((e) => (
-            <Badge key={e} tone={e === "Quantified" ? "signal" : "neutral"}>
+            <Badge key={e} tone="signal">
               {e}
             </Badge>
           ))}

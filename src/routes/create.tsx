@@ -46,7 +46,7 @@ function CreatePage() {
     setRunning(true);
   };
 
-  const source = notes.trim().length > 0 ? notes : record.rawNotes.join("\n");
+  const source = usedOwnNotes ? notes : notes.trim().length > 0 ? notes : record.rawNotes.join("\n");
 
   return (
     <div className="space-y-10">
