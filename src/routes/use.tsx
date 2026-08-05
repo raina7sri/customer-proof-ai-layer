@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useRef } from "react";
 import { OUTPUTS, PROOF_RECORDS, SAMPLE_DISCLAIMER } from "@/data/proof-records";
 import { useDemo } from "@/components/proof/demo-state";
 import { evaluateReuse, generateOutput } from "@/lib/governance";
@@ -79,13 +80,17 @@ function UsePage() {
               <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
                 {output.purpose}
               </p>
-              <Divider className="my-5" />
-              <MicroLabel className="mb-2">Sample output</MicroLabel>
-              <p className="text-xs leading-relaxed text-plum/85">
-                {output.id === record.primaryOutput
-                  ? record.primaryOutputCopy
-                  : generateOutput(record, output)}
-              </p>
+              {selected ? (
+                <>
+                  <Divider className="my-5" />
+                  <MicroLabel className="mb-2">Generated output</MicroLabel>
+                  <p className="text-xs leading-relaxed text-plum/85">
+                    {output.id === record.primaryOutput
+                      ? record.primaryOutputCopy
+                      : generateOutput(record, output)}
+                  </p>
+                </>
+              ) : null}
               <div className="mt-5 space-y-4">
                 <VerdictNote verdict={verdict} />
                 <div className="flex items-center justify-between gap-3">
@@ -127,12 +132,17 @@ function UsePage() {
 
 function GeneratedOutput() {
   const { record, selectedOutputId } = useDemo();
+  const ref = useRef<HTMLDivElement>(null);
   const output = OUTPUTS.find((o) => o.id === selectedOutputId);
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [selectedOutputId]);
   if (!output) return null;
   const verdict = evaluateReuse(record, output);
 
   return (
     <Panel className="p-7">
+      <div ref={ref} />
       <div className="flex flex-wrap items-baseline justify-between gap-3">
         <div>
           <MicroLabel>Generated for {output.team}</MicroLabel>
