@@ -305,7 +305,9 @@ export const PROOF_RECORDS: ProofRecord[] = [
 export const DEFAULT_RECORD_ID = "agentic-commerce";
 
 export function getRecord(id: string): ProofRecord {
-  return PROOF_RECORDS.find((r) => r.id === id) ?? PROOF_RECORDS[1];
+  const found = PROOF_RECORDS.find((r) => r.id === id);
+  if (found) return found;
+  return PROOF_RECORDS.find((r) => r.id === DEFAULT_RECORD_ID) as ProofRecord;
 }
 
 export const METRICS = [
