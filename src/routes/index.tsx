@@ -59,6 +59,13 @@ function Index() {
     navigate({ to: "/create" });
   };
 
+  const startBlank = () => {
+    setUsedOwnNotes(true);
+    setNotes("");
+    setRecordGenerated(false);
+    navigate({ to: "/create" });
+  };
+
   return (
     <div className="space-y-14">
       <section className="max-w-3xl">
@@ -82,7 +89,7 @@ function Index() {
             Run sample workflow
           </button>
           <button
-            onClick={runOwn}
+            onClick={startBlank}
             className="border border-plum/25 px-5 py-2.5 text-sm font-medium text-plum transition-colors hover:border-violet hover:text-violet"
           >
             Enter your own notes
