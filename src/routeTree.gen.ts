@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CreateRouteImport } from './routes/create'
+import { Route as ExpansionRouteImport } from './routes/expansion'
+import { Route as LibraryRouteImport } from './routes/library'
+import { Route as MetricsRouteImport } from './routes/metrics'
+import { Route as RecordRouteImport } from './routes/record'
+import { Route as UseRouteImport } from './routes/use'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CreateRoute = CreateRouteImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExpansionRoute = ExpansionRouteImport.update({
+  id: '/expansion',
+  path: '/expansion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryRoute = LibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MetricsRoute = MetricsRouteImport.update({
+  id: '/metrics',
+  path: '/metrics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecordRoute = RecordRouteImport.update({
+  id: '/record',
+  path: '/record',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UseRoute = UseRouteImport.update({
+  id: '/use',
+  path: '/use',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/create': typeof CreateRoute
+  '/expansion': typeof ExpansionRoute
+  '/library': typeof LibraryRoute
+  '/metrics': typeof MetricsRoute
+  '/record': typeof RecordRoute
+  '/use': typeof UseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/create': typeof CreateRoute
+  '/expansion': typeof ExpansionRoute
+  '/library': typeof LibraryRoute
+  '/metrics': typeof MetricsRoute
+  '/record': typeof RecordRoute
+  '/use': typeof UseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/create': typeof CreateRoute
+  '/expansion': typeof ExpansionRoute
+  '/library': typeof LibraryRoute
+  '/metrics': typeof MetricsRoute
+  '/record': typeof RecordRoute
+  '/use': typeof UseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/create'
+    | '/expansion'
+    | '/library'
+    | '/metrics'
+    | '/record'
+    | '/use'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/create'
+    | '/expansion'
+    | '/library'
+    | '/metrics'
+    | '/record'
+    | '/use'
+  id:
+    | '__root__'
+    | '/'
+    | '/create'
+    | '/expansion'
+    | '/library'
+    | '/metrics'
+    | '/record'
+    | '/use'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CreateRoute: typeof CreateRoute
+  ExpansionRoute: typeof ExpansionRoute
+  LibraryRoute: typeof LibraryRoute
+  MetricsRoute: typeof MetricsRoute
+  RecordRoute: typeof RecordRoute
+  UseRoute: typeof UseRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +130,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/create': {
+      id: '/create'
+      path: '/create'
+      fullPath: '/create'
+      preLoaderRoute: typeof CreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/expansion': {
+      id: '/expansion'
+      path: '/expansion'
+      fullPath: '/expansion'
+      preLoaderRoute: typeof ExpansionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library': {
+      id: '/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof LibraryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/metrics': {
+      id: '/metrics'
+      path: '/metrics'
+      fullPath: '/metrics'
+      preLoaderRoute: typeof MetricsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/record': {
+      id: '/record'
+      path: '/record'
+      fullPath: '/record'
+      preLoaderRoute: typeof RecordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/use': {
+      id: '/use'
+      path: '/use'
+      fullPath: '/use'
+      preLoaderRoute: typeof UseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CreateRoute: CreateRoute,
+  ExpansionRoute: ExpansionRoute,
+  LibraryRoute: LibraryRoute,
+  MetricsRoute: MetricsRoute,
+  RecordRoute: RecordRoute,
+  UseRoute: UseRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
