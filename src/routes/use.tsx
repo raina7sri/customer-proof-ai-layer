@@ -35,7 +35,7 @@ export const Route = createFileRoute("/use")({
 });
 
 function UsePage() {
-  const { record, selectedRecordId, setSelectedRecordId, selectedOutputId, setSelectedOutputId } =
+  const { record, selectedRecordId, setSelectedRecordId, selectedOutputId, setSelectedOutputId, customRecord, usedOwnNotes, setUsedOwnNotes } =
     useDemo();
 
   return (
@@ -47,12 +47,24 @@ function UsePage() {
       />
 
       <div className="flex flex-wrap gap-2">
+        {customRecord ? (
+          <button
+            onClick={() => setUsedOwnNotes(true)}
+            className={`border px-3 py-1.5 text-xs transition-colors ${
+              usedOwnNotes
+                ? "border-violet bg-violet/[0.06] text-violet"
+                : "border-hairline text-muted-foreground hover:border-violet/40 hover:text-plum"
+            }`}
+          >
+            Your notes
+          </button>
+        ) : null}
         {PROOF_RECORDS.map((r) => (
           <button
             key={r.id}
             onClick={() => setSelectedRecordId(r.id)}
             className={`border px-3 py-1.5 text-xs transition-colors ${
-              r.id === selectedRecordId
+              !usedOwnNotes && r.id === selectedRecordId
                 ? "border-violet bg-violet/[0.06] text-violet"
                 : "border-hairline text-muted-foreground hover:border-violet/40 hover:text-plum"
             }`}
@@ -85,7 +97,7 @@ function UsePage() {
                   <Divider className="my-5" />
                   <MicroLabel className="mb-2">Generated output</MicroLabel>
                   <p className="text-xs leading-relaxed text-plum/85">
-                    {output.id === record.primaryOutput
+                    {record.source !== "notes" && output.id === record.primaryOutput
                       ? record.primaryOutputCopy
                       : generateOutput(record, output)}
                   </p>
@@ -125,7 +137,11 @@ function UsePage() {
 
       {selectedOutputId ? <GeneratedOutput /> : null}
 
-      <p className="text-[0.68rem] text-muted-foreground">{SAMPLE_DISCLAIMER}</p>
+      <p className="text-[0.68rem] text-muted-foreground">
+        {record.source === "notes"
+          ? "Generated from the record extracted from your material. Not human-approved."
+          : SAMPLE_DISCLAIMER}
+      </p>
     </div>
   );
 }
@@ -158,7 +174,7 @@ function GeneratedOutput() {
       <div className="grid gap-6 md:grid-cols-2">
         <GovernanceCheck />
         <div className="space-y-4">
-          <ExclusionNote />
+          <ExclusionNote record={record} />
           <VerdictNote verdict={verdict} />
         </div>
       </div>

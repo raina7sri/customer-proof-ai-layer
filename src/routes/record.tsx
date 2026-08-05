@@ -37,8 +37,10 @@ export const Route = createFileRoute("/record")({
 });
 
 function RecordPage() {
-  const { record, selectedRecordId, setSelectedRecordId } = useDemo();
+  const { record, selectedRecordId, setSelectedRecordId, customRecord, usedOwnNotes, setUsedOwnNotes } =
+    useDemo();
   const publicReady = isPublicUseReady(record);
+  const fromNotes = record.source === "notes";
 
   const fields = [
     { label: "Customer context", value: record.customerContext },
@@ -56,12 +58,24 @@ function RecordPage() {
       />
 
       <div className="flex flex-wrap gap-2">
+        {customRecord ? (
+          <button
+            onClick={() => setUsedOwnNotes(true)}
+            className={`border px-3 py-1.5 text-xs transition-colors ${
+              usedOwnNotes
+                ? "border-violet bg-violet/[0.06] text-violet"
+                : "border-hairline text-muted-foreground hover:border-violet/40 hover:text-plum"
+            }`}
+          >
+            Your notes
+          </button>
+        ) : null}
         {PROOF_RECORDS.map((r) => (
           <button
             key={r.id}
             onClick={() => setSelectedRecordId(r.id)}
             className={`border px-3 py-1.5 text-xs transition-colors ${
-              r.id === selectedRecordId
+              !usedOwnNotes && r.id === selectedRecordId
                 ? "border-violet bg-violet/[0.06] text-violet"
                 : "border-hairline text-muted-foreground hover:border-violet/40 hover:text-plum"
             }`}
@@ -98,22 +112,25 @@ function RecordPage() {
             </div>
           </dl>
           <p className="mt-7 border-t border-hairline pt-4 text-[0.68rem] text-muted-foreground">
-            {SAMPLE_DISCLAIMER}
+            {fromNotes
+              ? "Extracted from the material you pasted. Structured by AI, not human-approved — governance defaults start at internal use and internal review."
+              : SAMPLE_DISCLAIMER}
           </p>
         </Panel>
 
         <div className="space-y-6">
           <div className="bg-plum p-6">
             <MicroLabel className="text-plum-foreground/55">
-              Human review · claim scope (example)
+              {fromNotes ? "Human review · claim scope" : "Human review · claim scope (example)"}
             </MicroLabel>
             <p className="mt-3 text-xs leading-relaxed text-plum-foreground/60">
-              Fixed illustrative example of the human review step. It is not derived from the
-              selected record. {SAMPLE_DISCLAIMER}
+              {fromNotes
+                ? "Derived from your pasted material. The scoped version is the claim ceiling this record carries downstream."
+                : `Fixed illustrative example of the human review step. It is not derived from the selected record. ${SAMPLE_DISCLAIMER}`}
             </p>
             <div className="mt-5">
               <span className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-signal">
-                AI extraction
+                {fromNotes ? "Overreaching claim in the material" : "AI extraction"}
               </span>
               <p className="mt-2 text-sm leading-relaxed text-plum-foreground/70 line-through decoration-signal/70">
                 {record.claimReview.ai}
@@ -121,7 +138,7 @@ function RecordPage() {
             </div>
             <div className="mt-6">
               <span className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-approve">
-                Human-approved version
+                {fromNotes ? "Scoped version for review" : "Human-approved version"}
               </span>
               <p className="mt-2 text-sm leading-relaxed text-plum-foreground">
                 {record.claimReview.approved}
@@ -133,6 +150,21 @@ function RecordPage() {
           </div>
 
           <Panel className="p-6">
+            {fromNotes && (record.excludedClaims?.length ?? 0) > 0 ? (
+              <div className="mb-6">
+                <MicroLabel>Held out of this record</MicroLabel>
+                <ul className="mt-3 space-y-3">
+                  {record.excludedClaims!.map((c) => (
+                    <li key={c.claim} className="border-l-2 border-signal pl-3 text-xs text-plum">
+                      <span className="font-medium">{c.claim}</span>
+                      <span className="mt-1 block leading-relaxed text-muted-foreground">
+                        {c.reason}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
             <MicroLabel>Update triggers</MicroLabel>
             <ul className="mt-3 space-y-2">
               {UPDATE_TRIGGERS.map((t) => (
