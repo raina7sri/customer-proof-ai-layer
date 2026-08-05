@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CreateRouteImport } from './routes/create'
+import { Route as LibraryRouteImport } from './routes/library'
 import { Route as RecordRouteImport } from './routes/record'
 import { Route as UseRouteImport } from './routes/use'
 
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
 const CreateRoute = CreateRouteImport.update({
   id: '/create',
   path: '/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryRoute = LibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RecordRoute = RecordRouteImport.update({
@@ -38,12 +44,14 @@ const UseRoute = UseRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
+  '/library': typeof LibraryRoute
   '/record': typeof RecordRoute
   '/use': typeof UseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
+  '/library': typeof LibraryRoute
   '/record': typeof RecordRoute
   '/use': typeof UseRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
+  '/library': typeof LibraryRoute
   '/record': typeof RecordRoute
   '/use': typeof UseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/create' | '/record' | '/use'
+  fullPaths: '/' | '/create' | '/library' | '/record' | '/use'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/create' | '/record' | '/use'
-  id: '__root__' | '/' | '/create' | '/record' | '/use'
+  to: '/' | '/create' | '/library' | '/record' | '/use'
+  id: '__root__' | '/' | '/create' | '/library' | '/record' | '/use'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CreateRoute: typeof CreateRoute
+  LibraryRoute: typeof LibraryRoute
   RecordRoute: typeof RecordRoute
   UseRoute: typeof UseRoute
 }
@@ -83,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/create'
       fullPath: '/create'
       preLoaderRoute: typeof CreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library': {
+      id: '/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof LibraryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/record': {
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CreateRoute: CreateRoute,
+  LibraryRoute: LibraryRoute,
   RecordRoute: RecordRoute,
   UseRoute: UseRoute,
 }
