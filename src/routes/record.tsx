@@ -1,7 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PROOF_RECORDS, SAMPLE_DISCLAIMER } from "@/data/proof-records";
 import { useDemo } from "@/components/proof/demo-state";
-import { isPublicUseReady, UPDATE_TRIGGERS } from "@/lib/governance";
+import {
+  isPublicUseReady,
+  readinessLabel,
+  readinessReason,
+  UPDATE_TRIGGERS,
+} from "@/lib/governance";
 import {
   Badge,
   Divider,
