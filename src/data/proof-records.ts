@@ -310,16 +310,35 @@ export function getRecord(id: string): ProofRecord {
   return PROOF_RECORDS.find((r) => r.id === DEFAULT_RECORD_ID) as ProofRecord;
 }
 
+const TOTAL_RECORDS = PROOF_RECORDS.length;
+
+const READY_TO_USE = PROOF_RECORDS.filter(
+  (r) =>
+    r.hasSourceMaterial &&
+    r.useControls.approvalStatus === "Ready to use" &&
+    r.useControls.customerLoad !== "Paused" &&
+    !r.updateFlag,
+).length;
+
+const SOURCED = PROOF_RECORDS.filter((r) => r.hasSourceMaterial).length;
+
+const LOAD_COUNTS = (["Available", "Reuse only", "Paused"] as CustomerLoad[]).map(
+  (load) => ({
+    load,
+    count: PROOF_RECORDS.filter((r) => r.useControls.customerLoad === load).length,
+  }),
+);
+
 export const METRICS = [
   {
     label: "Ready-to-use proof",
-    value: "4 of 5",
+    value: `${READY_TO_USE} of ${TOTAL_RECORDS}`,
     definition:
       "Records with source material, approval, permission, and no update flag.",
   },
   {
     label: "Source coverage",
-    value: "5 of 5",
+    value: `${SOURCED} of ${TOTAL_RECORDS}`,
     definition: "Records linked to notes, transcripts, or source material.",
   },
   {
@@ -335,7 +354,7 @@ export const METRICS = [
   },
   {
     label: "Customer load",
-    value: "3 Available \u00B7 1 Reuse only \u00B7 0 Paused",
+    value: LOAD_COUNTS.map((l) => `${l.count} ${l.load}`).join(" \u00B7 "),
     definition: "Whether a customer is available, reuse-only, or paused.",
   },
 ];
