@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CreateRouteImport } from './routes/create'
 import { Route as LibraryRouteImport } from './routes/library'
+import { Route as MetricsRouteImport } from './routes/metrics'
 import { Route as RecordRouteImport } from './routes/record'
 import { Route as UseRouteImport } from './routes/use'
 
@@ -30,6 +31,11 @@ const LibraryRoute = LibraryRouteImport.update({
   path: '/library',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MetricsRoute = MetricsRouteImport.update({
+  id: '/metrics',
+  path: '/metrics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RecordRoute = RecordRouteImport.update({
   id: '/record',
   path: '/record',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
   '/library': typeof LibraryRoute
+  '/metrics': typeof MetricsRoute
   '/record': typeof RecordRoute
   '/use': typeof UseRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
   '/library': typeof LibraryRoute
+  '/metrics': typeof MetricsRoute
   '/record': typeof RecordRoute
   '/use': typeof UseRoute
 }
@@ -60,21 +68,24 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/create': typeof CreateRoute
   '/library': typeof LibraryRoute
+  '/metrics': typeof MetricsRoute
   '/record': typeof RecordRoute
   '/use': typeof UseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/create' | '/library' | '/record' | '/use'
+  fullPaths: '/' | '/create' | '/library' | '/metrics' | '/record' | '/use'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/create' | '/library' | '/record' | '/use'
-  id: '__root__' | '/' | '/create' | '/library' | '/record' | '/use'
+  to: '/' | '/create' | '/library' | '/metrics' | '/record' | '/use'
+  id:
+    '__root__' | '/' | '/create' | '/library' | '/metrics' | '/record' | '/use'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CreateRoute: typeof CreateRoute
   LibraryRoute: typeof LibraryRoute
+  MetricsRoute: typeof MetricsRoute
   RecordRoute: typeof RecordRoute
   UseRoute: typeof UseRoute
 }
@@ -102,6 +113,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LibraryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/metrics': {
+      id: '/metrics'
+      path: '/metrics'
+      fullPath: '/metrics'
+      preLoaderRoute: typeof MetricsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/record': {
       id: '/record'
       path: '/record'
@@ -123,6 +141,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CreateRoute: CreateRoute,
   LibraryRoute: LibraryRoute,
+  MetricsRoute: MetricsRoute,
   RecordRoute: RecordRoute,
   UseRoute: UseRoute,
 }
