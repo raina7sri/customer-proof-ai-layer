@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { PROOF_RECORDS, SAMPLE_DISCLAIMER } from "@/data/proof-records";
+import { FAQ } from "@/data/faq";
 import { useDemo } from "@/components/proof/demo-state";
 import {
   Badge,
@@ -11,23 +12,61 @@ import {
   permissionTone,
 } from "@/components/proof/ui";
 
+const SITE = "https://customer-proof-ai-layer.lovable.app";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Customer Proof AI Layer — Governed customer proof for GTM teams" },
+      { title: "Customer Proof AI Layer — Governed proof for GTM" },
       {
         name: "description",
         content:
-          "Turn rough customer conversations into governed proof GTM teams can search, approve, measure, and reuse.",
+          "Turn transcripts, call notes, and case studies into governed customer proof GTM teams can search, approve, measure, and reuse.",
       },
       {
         property: "og:title",
-        content: "Customer Proof AI Layer — Governed customer proof for GTM teams",
+        content: "Customer Proof AI Layer — Governed proof for GTM",
       },
       {
         property: "og:description",
         content:
           "Rough customer notes become a governed Customer Proof Record, then reusable proof for Sales, CS, Marketing, Website, and Analyst/PR.",
+      },
+      { property: "og:url", content: `${SITE}/` },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: `${SITE}/` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Customer Proof AI Layer",
+          applicationCategory: "BusinessApplication",
+          operatingSystem: "Web",
+          url: `${SITE}/`,
+          description:
+            "A governance layer that turns rough customer material into Customer Proof Records GTM teams can search, approve, measure, and reuse.",
+          publisher: {
+            "@type": "Organization",
+            name: "Aurics Lab",
+            url: SITE,
+          },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: FAQ.map((f) => ({
+            "@type": "Question",
+            name: f.question,
+            acceptedAnswer: { "@type": "Answer", text: f.answer },
+          })),
+        }),
       },
     ],
   }),
@@ -208,6 +247,24 @@ function Index() {
             and Events use it.
           </p>
         </Panel>
+      </section>
+
+      <Divider />
+
+      <section className="max-w-3xl">
+        <MicroLabel className="text-violet">Common questions</MicroLabel>
+        <h2 className="mt-3 text-xl font-semibold text-plum">
+          What this system is, and how it governs proof
+        </h2>
+        <dl className="mt-7 space-y-7">
+          {FAQ.map((f) => (
+            <div key={f.question} className="border-l-2 border-hairline pl-4">
+              <dt className="text-sm font-semibold text-plum">{f.question}</dt>
+              <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.answer}</dd>
+            </div>
+          ))}
+        </dl>
+        <SampleDisclaimer className="mt-8" />
       </section>
     </div>
   );

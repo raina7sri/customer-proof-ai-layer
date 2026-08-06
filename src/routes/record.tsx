@@ -31,6 +31,28 @@ export const Route = createFileRoute("/record")({
         content:
           "A human decides claim scope. The record carries evidence strength, approval, permission, and customer load.",
       },
+      { property: "og:url", content: "https://customer-proof-ai-layer.lovable.app/record" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://customer-proof-ai-layer.lovable.app/record" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Start", item: "https://customer-proof-ai-layer.lovable.app/" },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Review record",
+              item: "https://customer-proof-ai-layer.lovable.app/record",
+            },
+          ],
+        }),
+      },
     ],
   }),
   component: RecordPage,

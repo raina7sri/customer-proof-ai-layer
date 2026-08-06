@@ -29,6 +29,28 @@ export const Route = createFileRoute("/use")({
         content:
           "Every generated output carries a governance check and an explicit record of what was excluded.",
       },
+      { property: "og:url", content: "https://customer-proof-ai-layer.lovable.app/use" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://customer-proof-ai-layer.lovable.app/use" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Start", item: "https://customer-proof-ai-layer.lovable.app/" },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Use this proof",
+              item: "https://customer-proof-ai-layer.lovable.app/use",
+            },
+          ],
+        }),
+      },
     ],
   }),
   component: UsePage,

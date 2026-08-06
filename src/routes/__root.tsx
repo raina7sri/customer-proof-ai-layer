@@ -87,6 +87,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { name: "author", content: "Aurics Lab" },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Customer Proof AI Layer" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -101,6 +102,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Aurics Lab",
+          url: "https://customer-proof-ai-layer.lovable.app",
+          description:
+            "Aurics Lab builds operator-designed AI-native go-to-market systems, including the Customer Proof AI Layer.",
+        }),
+      },
     ],
   }),
   shellComponent: RootShell,

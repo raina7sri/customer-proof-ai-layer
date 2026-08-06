@@ -21,6 +21,28 @@ export const Route = createFileRoute("/create")({
         content:
           "Rough customer material becomes a structured, governable Customer Proof Record.",
       },
+      { property: "og:url", content: "https://customer-proof-ai-layer.lovable.app/create" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://customer-proof-ai-layer.lovable.app/create" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Start", item: "https://customer-proof-ai-layer.lovable.app/" },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Create record",
+              item: "https://customer-proof-ai-layer.lovable.app/create",
+            },
+          ],
+        }),
+      },
     ],
   }),
   component: CreatePage,
