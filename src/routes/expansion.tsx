@@ -70,9 +70,12 @@ function ExpansionPage() {
 
       <Divider />
 
-      <div className="max-w-3xl">
-        <MicroLabel className="mb-3 text-violet">Where it could go</MicroLabel>
-        <p className="text-sm leading-relaxed text-plum">{EXPANSION_WHERE_IT_COULD_GO}</p>
+      <div className="max-w-3xl space-y-4">
+        <MicroLabel className="text-violet">Next</MicroLabel>
+        <h2 className="text-2xl font-semibold text-plum sm:text-3xl">Where it could go</h2>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          {EXPANSION_WHERE_IT_COULD_GO}
+        </p>
       </div>
 
       <div className="grid gap-px border border-hairline bg-hairline lg:grid-cols-3">
