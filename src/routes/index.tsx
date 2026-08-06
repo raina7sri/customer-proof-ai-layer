@@ -115,17 +115,11 @@ function Index() {
         <h1 className="mt-4 text-3xl font-semibold leading-tight text-plum sm:text-4xl">
           Customer Proof AI Layer
         </h1>
-        <p className="mt-3 text-base text-plum/80">Rebuilding customer marketing to be AI-native.</p>
-        <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-          Turn rough customer conversations into governed proof GTM teams can search, approve,
-          measure, and reuse.
-        </p>
-        <p className="mt-4 border-l-2 border-violet pl-3 text-sm leading-relaxed text-plum">
-          Make customer proof searchable, approved, measurable, and reusable across GTM teams.
-        </p>
-        <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-          Customer proof often lives in transcripts, case studies, call notes, and team memory.
-          This layer turns that material into governed proof GTM teams can safely reuse.
+        <p className="mt-3 text-base text-plum/80">Rebuilding Customer Marketing to be AI-Native.</p>
+        <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          Customer proof often lives in transcripts, case studies, call notes, and team memory. This
+          layer turns that material into governed proof that GTM teams can search, approve, measure,
+          and reuse.
         </p>
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <button
@@ -142,6 +136,25 @@ function Index() {
           </button>
         </div>
         <SampleDisclaimer className="mt-6" />
+      </section>
+
+      <section className="grid gap-6 lg:grid-cols-2">
+        <div className="border-l-2 border-violet pl-5">
+          <MicroLabel className="text-violet">Why this is AI-native</MicroLabel>
+          <p className="mt-3 text-sm leading-relaxed text-plum/85">
+            AI-native GTM means redesigning the workflow. Here, AI structures customer proof as a
+            layer on top of traditional Customer Marketing to build a governed, retrievable and
+            structured set of outputs for use across functions.
+          </p>
+        </div>
+        <div className="border-l-2 border-hairline pl-5">
+          <MicroLabel>Ownership</MicroLabel>
+          <p className="mt-3 text-sm leading-relaxed text-plum/85">
+            Customer Marketing / PMM owns the proof record.
+            <br />
+            Sales, CS, Marketing, Website, AR/PR, and Events use it.
+          </p>
+        </div>
       </section>
 
       <Divider />
@@ -229,42 +242,19 @@ function Index() {
 
       <Divider />
 
-      <section className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-        <div className="bg-plum p-7">
-          <MicroLabel className="text-plum-foreground/55">Why this is AI-native</MicroLabel>
-          <p className="mt-4 text-base leading-relaxed text-plum-foreground">
-            AI-native GTM means redesigning the workflow.
-          </p>
-          <p className="mt-3 text-sm leading-relaxed text-plum-foreground/70">
-            In this example, AI structures customer proof so teams can govern, retrieve, and reuse
-            it to build a version of AI-native Customer Marketing.
-          </p>
-        </div>
-        <Panel className="p-7">
-          <MicroLabel>Ownership</MicroLabel>
-          <p className="mt-4 text-sm leading-relaxed text-plum">
-            Customer Marketing / PMM owns the proof record. Sales, CS, Marketing, Website, AR/PR,
-            and Events use it.
-          </p>
-        </Panel>
-      </section>
-
-      <Divider />
-
       <section className="max-w-3xl">
         <MicroLabel className="text-violet">Common questions</MicroLabel>
         <h2 className="mt-3 text-xl font-semibold text-plum">
           What this system is, and how it governs proof
         </h2>
-        <dl className="mt-7 space-y-7">
+        <dl className="mt-8 divide-y divide-hairline border-t border-hairline">
           {FAQ.map((f) => (
-            <div key={f.question} className="border-l-2 border-hairline pl-4">
-              <dt className="text-sm font-semibold text-plum">{f.question}</dt>
-              <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.answer}</dd>
+            <div key={f.question} className="py-6">
+              <dt className="text-sm font-semibold leading-snug text-plum">{f.question}</dt>
+              <dd className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{f.answer}</dd>
             </div>
           ))}
         </dl>
-        <SampleDisclaimer className="mt-8" />
       </section>
     </div>
   );

@@ -28,7 +28,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 Customer Proof AI Layer
               </div>
               <p className="mt-1 text-sm text-midnight-foreground/70">
-                Rebuilding customer marketing to be AI-native.
+                Rebuilding Customer Marketing to be AI-Native.
               </p>
             </div>
             <p className="max-w-xs text-xs leading-relaxed text-midnight-foreground/60">
@@ -59,7 +59,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <footer className="border-t border-hairline">
         <div className="mx-auto max-w-6xl px-6 py-8">
           <p className="text-[0.7rem] tracking-wide text-muted-foreground">
-            Sample data — category-referenced synthetic examples. Not real customer claims.
+            Sample data — category-referenced synthetic examples.
           </p>
         </div>
       </footer>

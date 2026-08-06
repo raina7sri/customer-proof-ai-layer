@@ -43,10 +43,10 @@ export type ProofRecord = {
 };
 
 export const SAMPLE_DISCLAIMER =
-  "Sample data — category-referenced synthetic example. Not a real customer claim.";
+  "Sample data — category-referenced synthetic example.";
 
 export const SAMPLE_DISCLAIMER_GLOBAL =
-  "Sample data — category-referenced synthetic examples. Not real customer claims.";
+  "Sample data — category-referenced synthetic examples.";
 
 export const CLAIM_REVIEW = {
   ai: "The platform increased conversion by 12%.",
@@ -126,7 +126,7 @@ export const OUTPUTS: OutputDefinition[] = [
   },
 ];
 
-export const PROOF_RECORDS: ProofRecord[] = [
+const RECORD_DEFINITIONS: ProofRecord[] = [
   {
     id: "enterprise-payments",
     category: "Enterprise payments platform",
@@ -305,6 +305,18 @@ export const PROOF_RECORDS: ProofRecord[] = [
 ];
 
 export const DEFAULT_RECORD_ID = "agentic-commerce";
+
+const DISPLAY_ORDER = [
+  "agentic-commerce",
+  "enterprise-ai",
+  "enterprise-payments",
+  "ai-infrastructure",
+  "crm-platform",
+];
+
+export const PROOF_RECORDS: ProofRecord[] = DISPLAY_ORDER.map(
+  (id) => RECORD_DEFINITIONS.find((r) => r.id === id) as ProofRecord,
+).filter(Boolean);
 
 export function getRecord(id: string): ProofRecord {
   const found = PROOF_RECORDS.find((r) => r.id === id);
