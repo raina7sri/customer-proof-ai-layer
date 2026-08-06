@@ -1,0 +1,44 @@
+# Customer Proof AI Layer
+
+> An Aurics Lab prototype that turns rough customer material into governed customer proof
+> GTM teams can safely reuse. Subtitle: Rebuilding customer marketing to be AI-native.
+
+Core principle: AI structures and adapts customer proof. Humans approve what is true,
+current, commercially useful, and safe to use.
+
+Product promise: make customer proof searchable, approved, measurable, and reusable
+across GTM teams.
+
+Ownership: Customer Marketing / PMM owns the proof record. Sales, CS, Marketing,
+Website, AR/PR, and Events use it.
+
+## Customer Proof Record fields
+1. Customer context
+2. Proof priority
+3. Buyer problem
+4. Approved proof
+5. Use controls (evidence strength, approval status, permission, customer load)
+
+## Outputs generated from approved proof
+1. Proof summary for Sales outreach
+2. Business expansion note
+3. Marketing case study brief
+4. Website proof block
+5. External approved proof note
+
+## Governance check applied to every output
+- Source attached
+- Permission checked
+- Approval checked
+- Claim scope preserved
+
+## Pages
+- https://customer-proof-ai-layer.lovable.app/: start, sample records or your own notes
+- https://customer-proof-ai-layer.lovable.app/create: create a Customer Proof Record from raw material
+- https://customer-proof-ai-layer.lovable.app/record: review the governed record
+- https://customer-proof-ai-layer.lovable.app/use: generate role-specific outputs with governance checks
+- https://customer-proof-ai-layer.lovable.app/library: search and filter proof records
+- https://customer-proof-ai-layer.lovable.app/metrics: proof system health metrics
+- https://customer-proof-ai-layer.lovable.app/expansion: how this could expand
+
+Sample data — category-referenced synthetic examples. Not real customer claims.
