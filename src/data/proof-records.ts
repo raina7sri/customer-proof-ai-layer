@@ -383,20 +383,70 @@ export const METRICS = [
   },
 ];
 
-export const EXPANSION_ITEMS = [
-  "CRM, Gong, call transcript, and case study source integrations",
-  "Approval workflow routing",
-  "Semantic search across customer proof",
-  "Proof gap analysis by product, segment, or buyer objection",
-  "Field usage tracking",
-  "Revenue influence attribution",
-  "Customer fatigue automation",
-  "Analyst / PR proof tracking",
-  "Launch and sales enablement integrations",
+export const EXPANSION_SUMMARY = [
+  "The current version creates governed Customer Proof Records that GTM teams can search, approve, measure, and reuse.",
+  "Today, the layer turns rough customer material into structured records with customer context, proof priority, buyer problem, approved proof, and use controls. It helps teams retrieve approved proof, adapt it across Sales, Customer Success, Marketing, Website, Analyst/PR, and Events use cases, and preserve claim scope, permission, approval status, and customer load.",
+];
+
+export const EXPANSION_WHERE_IT_COULD_GO =
+  "The next iteration could make the proof layer more deeply integrated with source systems, add new utility for live deal moments, and make proof usage more measurable across the GTM funnel.";
+
+export type ExpansionSection = {
+  title: string;
+  body: string[];
+  example?: string;
+  bulletsLabel?: string;
+  bullets?: string[];
+  emphasizeLastBullet?: boolean;
+  objective: string;
+};
+
+export const EXPANSION_SECTIONS: ExpansionSection[] = [
+  {
+    title: "Source systems integration",
+    body: [
+      "Pull customer proof from the places it already lives: CRM records, Gong or call transcripts, QBR notes, customer interviews, case studies, webinars, and sales enablement materials.",
+    ],
+    objective:
+      "Reduce manual input and connect the proof layer more closely to the GTM workflow.",
+  },
+  {
+    title: "Objection-led retrieval",
+    body: [
+      "Let a seller enter a live buyer concern and receive ranked, approved proof records.",
+    ],
+    example:
+      "The buyer thinks this is just another product-enrichment tool and is worried implementation will require replatforming.",
+    bulletsLabel: "The system would return",
+    bullets: [
+      "the strongest approved proof",
+      "source and scope for each proof point",
+      "permission status",
+      "one limitation or qualification",
+      "excluded evidence and why it was excluded",
+    ],
+    emphasizeLastBullet: true,
+    objective:
+      "Move from searching for proof to retrieving governed evidence in the moment a buyer needs confidence.",
+  },
+  {
+    title: "Field usage and revenue influence",
+    body: [
+      "Track where approved proof is used across Sales, Customer Success, Analyst/PR, Events, launches, and deal cycles.",
+    ],
+    bulletsLabel: "The system could show",
+    bullets: [
+      "which proof records are reused most often to support new business or expansion conversations",
+      "which buyer problems lack strong proof",
+      "where customer proof influenced revenue motion",
+    ],
+    objective:
+      "Show how customer proof supports GTM execution and where stronger evidence is still needed.",
+  },
 ];
 
 export const EXPANSION_CLOSING =
-  "V1 turns rough customer material into governed proof records. Future versions could connect that proof to the systems where GTM teams already work.";
+  "Today, we make customer proof governed and reusable. Next, we could connect it more deeply to source systems, live deal moments, and GTM measurement.";
 
 export const FILTER_GROUPS: { label: string; options: string[] }[] = [
   {

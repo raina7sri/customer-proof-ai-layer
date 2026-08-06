@@ -1,5 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { EXPANSION_CLOSING, EXPANSION_ITEMS } from "@/data/proof-records";
+import {
+  EXPANSION_CLOSING,
+  EXPANSION_SECTIONS,
+  EXPANSION_SUMMARY,
+  EXPANSION_WHERE_IT_COULD_GO,
+} from "@/data/proof-records";
 import { Divider, MicroLabel, SectionHeading } from "@/components/proof/ui";
 
 export const Route = createFileRoute("/expansion")({
@@ -9,13 +14,13 @@ export const Route = createFileRoute("/expansion")({
       {
         name: "description",
         content:
-          "Source integrations, approval routing, semantic search, proof gap analysis, usage tracking, and revenue influence attribution.",
+          "A selective roadmap: source systems integration, objection-led retrieval, and field usage with revenue influence.",
       },
       { property: "og:title", content: "How this could expand" },
       {
         property: "og:description",
         content:
-          "Connecting governed customer proof to the systems where GTM teams already work.",
+          "How governed customer proof could connect to source systems, live deal moments, and GTM measurement.",
       },
       { property: "og:url", content: "https://customer-proof-ai-layer.lovable.app/expansion" },
       { property: "og:type", content: "website" },
@@ -46,28 +51,98 @@ export const Route = createFileRoute("/expansion")({
 
 function ExpansionPage() {
   return (
-    <div className="space-y-10">
-      <SectionHeading
-        eyebrow="Roadmap"
-        title="How this could expand"
-        description="V1 governs the record. The next layers connect that record to source systems, workflow, and revenue measurement."
-      />
-
-      <div className="grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3">
-        {EXPANSION_ITEMS.map((item, i) => (
-          <div key={item} className="bg-card p-6">
-            <span className="font-mono text-[0.7rem] text-violet">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <p className="mt-3 text-sm leading-relaxed text-plum">{item}</p>
-          </div>
+    <div className="space-y-12">
+      <div className="max-w-3xl space-y-4">
+        <SectionHeading eyebrow="Roadmap" title="How this could expand" />
+        {EXPANSION_SUMMARY.map((p, i) => (
+          <p
+            key={p}
+            className={
+              i === 0
+                ? "text-base leading-relaxed text-plum"
+                : "text-sm leading-relaxed text-muted-foreground"
+            }
+          >
+            {p}
+          </p>
         ))}
       </div>
 
       <Divider />
 
       <div className="max-w-3xl">
-        <MicroLabel className="mb-3">Closing</MicroLabel>
+        <MicroLabel className="mb-3 text-violet">Where it could go</MicroLabel>
+        <p className="text-sm leading-relaxed text-plum">{EXPANSION_WHERE_IT_COULD_GO}</p>
+      </div>
+
+      <div className="grid gap-px border border-hairline bg-hairline lg:grid-cols-3">
+        {EXPANSION_SECTIONS.map((section, i) => (
+          <article key={section.title} className="flex flex-col bg-card p-6 sm:p-8">
+            <span className="font-mono text-[0.7rem] text-violet">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <h2 className="mt-3 text-lg font-semibold tracking-tight text-plum">
+              {section.title}
+            </h2>
+
+            <div className="mt-4 space-y-3">
+              {section.body.map((line) => (
+                <p key={line} className="text-sm leading-relaxed text-muted-foreground">
+                  {line}
+                </p>
+              ))}
+            </div>
+
+            {section.example ? (
+              <div className="mt-5 border-l-2 border-violet/50 pl-4">
+                <MicroLabel className="mb-2">Example</MicroLabel>
+                <p className="text-sm italic leading-relaxed text-plum">
+                  &ldquo;{section.example}&rdquo;
+                </p>
+              </div>
+            ) : null}
+
+            {section.bullets ? (
+              <div className="mt-5">
+                {section.bulletsLabel ? (
+                  <MicroLabel className="mb-2">{section.bulletsLabel}</MicroLabel>
+                ) : null}
+                <ul className="space-y-2">
+                  {section.bullets.map((bullet, bi) => {
+                    const emphasize =
+                      section.emphasizeLastBullet && bi === section.bullets!.length - 1;
+                    return (
+                      <li
+                        key={bullet}
+                        className="flex gap-2.5 text-sm leading-relaxed text-plum"
+                      >
+                        <span
+                          aria-hidden
+                          className={
+                            emphasize
+                              ? "mt-[0.45rem] h-1.5 w-1.5 shrink-0 bg-signal"
+                              : "mt-[0.45rem] h-1.5 w-1.5 shrink-0 bg-violet/50"
+                          }
+                        />
+                        <span className={emphasize ? "text-plum" : undefined}>{bullet}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ) : null}
+
+            <div className="mt-auto pt-6">
+              <MicroLabel className="mb-2">Objective</MicroLabel>
+              <p className="text-sm leading-relaxed text-plum">{section.objective}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <Divider />
+
+      <div className="max-w-3xl">
         <p className="border-l-2 border-violet pl-4 text-sm leading-relaxed text-plum">
           {EXPANSION_CLOSING}
         </p>
