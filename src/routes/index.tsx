@@ -84,6 +84,10 @@ function Index() {
         <p className="mt-4 border-l-2 border-violet pl-3 text-sm leading-relaxed text-plum">
           Make customer proof searchable, approved, measurable, and reusable across GTM teams.
         </p>
+        <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
+          Customer proof often lives in transcripts, case studies, call notes, and team memory.
+          This layer turns that material into governed proof GTM teams can safely reuse.
+        </p>
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <button
             onClick={runSample}
@@ -182,6 +186,28 @@ function Index() {
             Continue with my notes
           </button>
         </div>
+      </section>
+
+      <Divider />
+
+      <section className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+        <div className="bg-plum p-7">
+          <MicroLabel className="text-plum-foreground/55">Why this is AI-native</MicroLabel>
+          <p className="mt-4 text-base leading-relaxed text-plum-foreground">
+            AI-native GTM means redesigning the workflow.
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-plum-foreground/70">
+            In this example, AI structures customer proof so teams can govern, retrieve, and reuse
+            it to build a version of AI-native Customer Marketing.
+          </p>
+        </div>
+        <Panel className="p-7">
+          <MicroLabel>Ownership</MicroLabel>
+          <p className="mt-4 text-sm leading-relaxed text-plum">
+            Customer Marketing / PMM owns the proof record. Sales, CS, Marketing, Website, AR/PR,
+            and Events use it.
+          </p>
+        </Panel>
       </section>
     </div>
   );

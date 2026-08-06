@@ -67,7 +67,7 @@ export function readinessLabel(record: ProofRecord): string {
     return `${record.useControls.permission} only`;
   }
   if (record.useControls.approvalStatus !== "Ready to use") {
-    return "Public use pending external approval";
+    return "Public use requested";
   }
   return "Public use pending review";
 }
