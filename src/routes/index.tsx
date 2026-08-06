@@ -161,7 +161,7 @@ function Index() {
 
       <section className="grid gap-10 lg:grid-cols-2">
         <div>
-          <MicroLabel>Left · Sample</MicroLabel>
+          <MicroLabel>Sample</MicroLabel>
           <h2 className="mt-2 text-lg font-semibold text-plum">Start with a sample record</h2>
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
             Five equal-weight sample categories. Selecting one loads its raw customer material.
@@ -213,7 +213,7 @@ function Index() {
         </div>
 
         <div>
-          <MicroLabel>Right · Your material</MicroLabel>
+          <MicroLabel>Your material</MicroLabel>
           <h2 className="mt-2 text-lg font-semibold text-plum">Enter your own customer notes</h2>
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
             Nothing is stored. Your text is read and structured into the same record format, with
