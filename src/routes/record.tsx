@@ -126,6 +126,24 @@ function RecordPage() {
               <div key={f.label}>
                 <MicroLabel>{f.label}</MicroLabel>
                 <dd className="mt-2 text-sm leading-relaxed text-plum">{f.value}</dd>
+                {f.label === "Approved proof" && record.proofDataPoints?.length ? (
+                  <dl className="mt-4 border-t border-hairline">
+                    {record.proofDataPoints.map((p) => (
+                      <div
+                        key={p.label}
+                        className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-hairline py-2.5"
+                      >
+                        <dt className="text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground">
+                          {p.label}
+                        </dt>
+                        <dd className="text-xs font-medium text-plum">
+                          <span className="mr-2 inline-block h-1.5 w-1.5 -translate-y-px bg-signal align-middle" />
+                          {p.value}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                ) : null}
               </div>
             ))}
             <div>
