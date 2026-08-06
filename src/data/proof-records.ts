@@ -302,6 +302,8 @@ const RECORD_DEFINITIONS: ProofRecord[] = [
     claimReview: CLAIM_REVIEW,
     reuseCount: 1,
   },
+];
+
 export const DEFAULT_RECORD_ID = "agentic-commerce";
 
 const DISPLAY_ORDER = [
