@@ -24,10 +24,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   Aurics Lab
                 </span>
               </div>
-              <div
-                role="text"
-                className="mt-3 text-xl font-semibold text-midnight-foreground sm:text-2xl"
-              >
+              <div className="mt-3 text-xl font-semibold text-midnight-foreground sm:text-2xl">
                 Customer Proof AI Layer
               </div>
               <p className="mt-1 text-sm text-midnight-foreground/70">
