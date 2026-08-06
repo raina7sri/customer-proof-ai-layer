@@ -11,7 +11,7 @@ Styled as body copy in muted plum, above the two action buttons.
 Add as its own thin-bordered callout block lower on the Start page, after the split-screen section (its own section with a divider above it):
 
 "AI-native GTM means redesigning the workflow.
-In this example, AI structures customer proof so teams can govern, retrieve, and reuse it."
+In this example, AI structures customer proof so teams can govern, retrieve, and reuse it to build a version of AI-native Customer Marketing."
 
 Deep plum panel treatment so it reads as a positioning statement, not instructions.
 
