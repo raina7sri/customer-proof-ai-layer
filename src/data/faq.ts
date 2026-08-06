@@ -4,12 +4,12 @@ export const FAQ: FaqItem[] = [
   {
     question: "What is a Customer Proof AI Layer?",
     answer:
-      "It is a governance layer for customer proof, not an AI writing tool. Rough customer material — transcripts, call notes, QBR notes, existing case studies — is structured into a Customer Proof Record that GTM teams can search, approve, measure, and reuse.",
+      "It is a governance layer for customer proof to rebuild Customer Marketing to be AI-native. Rough customer material such as transcripts, call notes, QBR notes, existing case studies are structured into a Customer Proof Record that cross-functional GTM teams can search, adapt, and reuse.",
   },
   {
     question: "What is a Customer Proof Record?",
     answer:
-      "A Customer Proof Record is the governed unit of proof. It carries five fields: customer context, proof priority, buyer problem, approved proof, and use controls. Everything downstream is generated from the approved proof only, never from raw notes.",
+      "A Customer Proof Record is the governed unit of proof. It carries five fields: customer context, proof priority, buyer problem, approved proof, and use controls. Everything downstream is generated from the approved proof only, and never from ungoverned raw notes.",
   },
   {
     question: "What does \u201CAI structures, humans approve\u201D mean in practice?",
@@ -29,6 +29,6 @@ export const FAQ: FaqItem[] = [
   {
     question: "What does AI-native customer marketing mean here?",
     answer:
-      "AI-native GTM means redesigning the workflow, not producing more content. In this example AI structures customer proof so teams can govern, retrieve, and reuse it, which is what makes customer marketing AI-native rather than simply faster.",
+      "AI-native GTM means redesigning the workflow itself. Here, AI structures customer proof so teams can govern, retrieve, and reuse it, which rebuilds customer marketing to be AI-native.",
   },
 ];
