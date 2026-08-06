@@ -40,6 +40,7 @@ export type ProofRecord = {
   reuseCount: number;
   source?: "sample" | "notes";
   excludedClaims?: { claim: string; reason: string }[];
+  proofDataPoints?: { label: string; value: string }[];
 };
 
 export const SAMPLE_DISCLAIMER =
@@ -182,7 +183,16 @@ const RECORD_DEFINITIONS: ProofRecord[] = [
     buyerProblem:
       "Product information was fragmented, making AI discovery and comparison less reliable.",
     approvedProof:
-      "Customer improved the structure of product details, variants, FAQs, and inventory context so AI systems could interpret product information more accurately.",
+      "During an eight-week pilot in one product category, attribute completeness increased from 58% to 91% after product records were enriched and structured for AI-assisted discovery. Monitored AI-shopping referrals converted 12% above the site average, but referral volume remained limited, so this should be classified as an early commercial signal, not validated enterprise ROI.",
+    proofDataPoints: [
+      { label: "Catalog improvement", value: "58% \u2192 91% attribute completeness" },
+      { label: "AI/channel signal", value: "AI-shopping referrals" },
+      { label: "Shopper behavior", value: "12% higher conversion than site average" },
+      {
+        label: "Governance qualifier",
+        value: "Limited referral volume, early signal only",
+      },
+    ],
     useControls: {
       evidenceStrength: ["Sourced", "Approved", "Quantified"],
       approvalStatus: "Ready to use",
