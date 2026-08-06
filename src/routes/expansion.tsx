@@ -79,7 +79,7 @@ function ExpansionPage() {
         {EXPANSION_SECTIONS.map((section, i) => (
           <article key={section.title} className="flex flex-col bg-card p-6 sm:p-8">
             <span className="font-mono text-[0.7rem] text-violet">
-              {String(i + 1).padStart(2, "0")}
+              Path {String(i + 1).padStart(2, "0")}
             </span>
             <h2 className="mt-3 text-lg font-semibold tracking-tight text-plum">
               {section.title}
