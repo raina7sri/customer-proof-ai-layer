@@ -10,7 +10,7 @@ Styled as body copy in muted plum, above the two action buttons.
 ## 2. AI-native GTM statement (separate placement)
 Add as its own thin-bordered callout block lower on the Start page, after the split-screen section (its own section with a divider above it):
 
-"AI-native GTM means redesigning the workflow, not just producing content faster.
+"AI-native GTM means redesigning the workflow.
 In this example, AI does not write more customer stories. It structures customer proof so teams can govern, retrieve, and reuse it."
 
 Deep plum panel treatment so it reads as a positioning statement, not instructions.
