@@ -422,7 +422,7 @@ export const EXPANSION_SECTIONS: ExpansionSection[] = [
       "the strongest approved proof",
       "source and scope for each proof point",
       "permission status",
-      "one limitation or qualification",
+      "any limitations or qualifications",
       "excluded evidence and why it was excluded",
     ],
     emphasizeLastBullet: true,
