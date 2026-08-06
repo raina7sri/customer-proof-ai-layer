@@ -15,6 +15,7 @@ import { Route as ExpansionRouteImport } from './routes/expansion'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as MetricsRouteImport } from './routes/metrics'
 import { Route as RecordRouteImport } from './routes/record'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as UseRouteImport } from './routes/use'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +48,11 @@ const RecordRoute = RecordRouteImport.update({
   path: '/record',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UseRoute = UseRouteImport.update({
   id: '/use',
   path: '/use',
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/library': typeof LibraryRoute
   '/metrics': typeof MetricsRoute
   '/record': typeof RecordRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/use': typeof UseRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/library': typeof LibraryRoute
   '/metrics': typeof MetricsRoute
   '/record': typeof RecordRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/use': typeof UseRoute
 }
 export interface FileRoutesById {
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/library': typeof LibraryRoute
   '/metrics': typeof MetricsRoute
   '/record': typeof RecordRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/use': typeof UseRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/library'
     | '/metrics'
     | '/record'
+    | '/sitemap.xml'
     | '/use'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/library'
     | '/metrics'
     | '/record'
+    | '/sitemap.xml'
     | '/use'
   id:
     | '__root__'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/library'
     | '/metrics'
     | '/record'
+    | '/sitemap.xml'
     | '/use'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   LibraryRoute: typeof LibraryRoute
   MetricsRoute: typeof MetricsRoute
   RecordRoute: typeof RecordRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UseRoute: typeof UseRoute
 }
 
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RecordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/use': {
       id: '/use'
       path: '/use'
@@ -182,18 +202,9 @@ const rootRouteChildren: RootRouteChildren = {
   LibraryRoute: LibraryRoute,
   MetricsRoute: MetricsRoute,
   RecordRoute: RecordRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   UseRoute: UseRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
