@@ -41,4 +41,4 @@ Website, AR/PR, and Events use it.
 - https://customer-proof-ai-layer.lovable.app/metrics: proof system health metrics
 - https://customer-proof-ai-layer.lovable.app/expansion: how this could expand
 
-Sample data — category-referenced synthetic examples. Not real customer claims.
+Sample data — category-referenced synthetic examples.
