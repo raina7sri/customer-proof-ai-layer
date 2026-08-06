@@ -32,6 +32,28 @@ export const Route = createFileRoute("/library")({
         property: "og:description",
         content: "Governed customer proof records, searchable and filterable for GTM teams.",
       },
+      { property: "og:url", content: "https://customer-proof-ai-layer.lovable.app/library" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://customer-proof-ai-layer.lovable.app/library" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Start", item: "https://customer-proof-ai-layer.lovable.app/" },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Proof library",
+              item: "https://customer-proof-ai-layer.lovable.app/library",
+            },
+          ],
+        }),
+      },
     ],
   }),
   component: LibraryPage,

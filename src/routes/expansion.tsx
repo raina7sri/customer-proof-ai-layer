@@ -17,6 +17,28 @@ export const Route = createFileRoute("/expansion")({
         content:
           "Connecting governed customer proof to the systems where GTM teams already work.",
       },
+      { property: "og:url", content: "https://customer-proof-ai-layer.lovable.app/expansion" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://customer-proof-ai-layer.lovable.app/expansion" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Start", item: "https://customer-proof-ai-layer.lovable.app/" },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Expansion",
+              item: "https://customer-proof-ai-layer.lovable.app/expansion",
+            },
+          ],
+        }),
+      },
     ],
   }),
   component: ExpansionPage,

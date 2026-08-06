@@ -26,6 +26,28 @@ export const Route = createFileRoute("/metrics")({
         property: "og:description",
         content: "Measure whether customer proof is governed, covered, and actually being reused.",
       },
+      { property: "og:url", content: "https://customer-proof-ai-layer.lovable.app/metrics" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://customer-proof-ai-layer.lovable.app/metrics" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Start", item: "https://customer-proof-ai-layer.lovable.app/" },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Metrics",
+              item: "https://customer-proof-ai-layer.lovable.app/metrics",
+            },
+          ],
+        }),
+      },
     ],
   }),
   component: MetricsPage,
