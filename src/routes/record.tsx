@@ -81,7 +81,7 @@ function RecordPage() {
 
   const selectNotes = () => {
     setUsedOwnNotes(true);
-    navigate({ search: { id: undefined }, replace: true });
+    navigate({ search: () => ({}), replace: true });
   };
 
   const publicReady = isPublicUseReady(record);
