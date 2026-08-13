@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { PROOF_RECORDS, SAMPLE_DISCLAIMER } from "@/data/proof-records";
 import { useDemo } from "@/components/proof/demo-state";
 import {
@@ -17,6 +18,8 @@ import {
 } from "@/components/proof/ui";
 
 export const Route = createFileRoute("/record")({
+  validateSearch: (search: Record<string, unknown>): { id?: string } =>
+    typeof search["id"] === "string" ? { id: search["id"] } : {},
   head: () => ({
     meta: [
       { title: "Review Customer Proof Record — Customer Proof AI Layer" },
@@ -61,6 +64,26 @@ export const Route = createFileRoute("/record")({
 function RecordPage() {
   const { record, selectedRecordId, setSelectedRecordId, customRecord, usedOwnNotes, setUsedOwnNotes } =
     useDemo();
+  const id = Route.useSearch().id;
+  const navigate = useNavigate({ from: "/record" });
+
+  useEffect(() => {
+    if (!id) return;
+    if (!PROOF_RECORDS.some((r) => r.id === id)) return;
+    if (id !== selectedRecordId || usedOwnNotes) setSelectedRecordId(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  const selectSample = (recordId: string) => {
+    setSelectedRecordId(recordId);
+    navigate({ search: { id: recordId }, replace: true });
+  };
+
+  const selectNotes = () => {
+    setUsedOwnNotes(true);
+    navigate({ search: () => ({}), replace: true });
+  };
+
   const publicReady = isPublicUseReady(record);
   const fromNotes = record.source === "notes";
 
@@ -82,7 +105,7 @@ function RecordPage() {
       <div className="flex flex-wrap gap-2">
         {customRecord ? (
           <button
-            onClick={() => setUsedOwnNotes(true)}
+            onClick={selectNotes}
             className={`border px-3 py-1.5 text-xs transition-colors ${
               usedOwnNotes
                 ? "border-violet bg-violet/[0.06] text-violet"
@@ -95,7 +118,7 @@ function RecordPage() {
         {PROOF_RECORDS.map((r) => (
           <button
             key={r.id}
-            onClick={() => setSelectedRecordId(r.id)}
+            onClick={() => selectSample(r.id)}
             className={`border px-3 py-1.5 text-xs transition-colors ${
               !usedOwnNotes && r.id === selectedRecordId
                 ? "border-violet bg-violet/[0.06] text-violet"
