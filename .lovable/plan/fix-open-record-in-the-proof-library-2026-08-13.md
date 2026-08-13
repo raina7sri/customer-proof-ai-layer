@@ -14,7 +14,7 @@ Make "Open record" select the record and navigate to `/record` in one action:
 - Render it as a real link (`<Link to="/record">` with an onClick that sets the selection) rather than a plain button, so it gets an href, cmd-click, keyboard behavior, and route preloading.
 - Scroll position resets to the top of the record page on arrival.
 
-## Optional refinements (say if you want these)
+## Optional refinements (say if you want these) - add these
 
 1. Show the currently selected record in the library with a subtle "Selected" marker, so state changes are visible even before navigating.
 2. Deep-link support: `/record?id=agentic-commerce` so a library card is shareable and the record page reads the id from the URL instead of only in-memory state.
