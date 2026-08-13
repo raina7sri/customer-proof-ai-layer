@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
   FILTER_GROUPS,
@@ -60,7 +60,7 @@ export const Route = createFileRoute("/library")({
 });
 
 function LibraryPage() {
-  const { setSelectedRecordId } = useDemo();
+  const { setSelectedRecordId, selectedRecordId, usedOwnNotes } = useDemo();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState<string[]>([]);
 
@@ -152,10 +152,20 @@ function LibraryPage() {
         </MicroLabel>
         <div className="grid gap-5 md:grid-cols-2">
           {results.map((r) => (
-            <Panel key={r.id} className="p-6">
+            <Panel
+              key={r.id}
+              className={`p-6 ${
+                !usedOwnNotes && r.id === selectedRecordId ? "border-violet/60" : ""
+              }`}
+            >
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <h2 className="text-sm font-semibold text-plum">{r.category}</h2>
-                <Badge tone="muted">{r.vertical}</Badge>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {!usedOwnNotes && r.id === selectedRecordId ? (
+                    <Badge tone="violet">Selected</Badge>
+                  ) : null}
+                  <Badge tone="muted">{r.vertical}</Badge>
+                </div>
               </div>
               <Divider className="my-4" />
               <MicroLabel>Proof priority</MicroLabel>
@@ -175,12 +185,14 @@ function LibraryPage() {
               </div>
               <div className="mt-5 flex items-center justify-between gap-3">
                 <p className="text-[0.65rem] text-muted-foreground">{SAMPLE_DISCLAIMER}</p>
-                <button
+                <Link
+                  to="/record"
+                  search={{ id: r.id }}
                   onClick={() => setSelectedRecordId(r.id)}
                   className="shrink-0 border border-plum/25 px-3 py-1.5 text-xs font-medium text-plum transition-colors hover:border-violet hover:text-violet"
                 >
                   Open record
-                </button>
+                </Link>
               </div>
             </Panel>
           ))}
