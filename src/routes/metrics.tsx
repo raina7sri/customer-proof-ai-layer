@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { METRICS, PROOF_RECORDS, SAMPLE_DISCLAIMER_GLOBAL } from "@/data/proof-records";
 import { isPublicUseReady } from "@/lib/governance";
 import {
@@ -110,6 +110,24 @@ function MetricsPage() {
           ))}
         </Panel>
         <p className="mt-4 text-[0.7rem] text-muted-foreground">{SAMPLE_DISCLAIMER_GLOBAL}</p>
+      </div>
+
+      <Divider />
+
+      <div className="flex flex-wrap items-center gap-3">
+        <MicroLabel className="mr-2">Next</MicroLabel>
+        <Link
+          to="/library"
+          className="border border-plum/25 px-3 py-1.5 text-xs font-medium text-plum transition-colors hover:border-violet hover:text-violet"
+        >
+          Browse the proof library
+        </Link>
+        <Link
+          to="/expansion"
+          className="border border-plum/25 px-3 py-1.5 text-xs font-medium text-plum transition-colors hover:border-violet hover:text-violet"
+        >
+          How this could expand
+        </Link>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   EXPANSION_CLOSING,
   EXPANSION_SECTIONS,
@@ -149,6 +149,22 @@ function ExpansionPage() {
         <p className="border-l-2 border-violet pl-4 text-sm leading-relaxed text-plum">
           {EXPANSION_CLOSING}
         </p>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-3">
+        <MicroLabel className="mr-2">Next</MicroLabel>
+        <Link
+          to="/"
+          className="border border-plum/25 px-3 py-1.5 text-xs font-medium text-plum transition-colors hover:border-violet hover:text-violet"
+        >
+          Start a proof record
+        </Link>
+        <Link
+          to="/library"
+          className="border border-plum/25 px-3 py-1.5 text-xs font-medium text-plum transition-colors hover:border-violet hover:text-violet"
+        >
+          Browse the proof library
+        </Link>
       </div>
     </div>
   );
