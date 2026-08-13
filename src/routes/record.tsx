@@ -18,9 +18,8 @@ import {
 } from "@/components/proof/ui";
 
 export const Route = createFileRoute("/record")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    id: typeof search.id === "string" ? search.id : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { id?: string } =>
+    typeof search["id"] === "string" ? { id: search["id"] } : {},
   head: () => ({
     meta: [
       { title: "Review Customer Proof Record — Customer Proof AI Layer" },
@@ -65,7 +64,7 @@ export const Route = createFileRoute("/record")({
 function RecordPage() {
   const { record, selectedRecordId, setSelectedRecordId, customRecord, usedOwnNotes, setUsedOwnNotes } =
     useDemo();
-  const { id } = Route.useSearch();
+  const id = Route.useSearch().id;
   const navigate = useNavigate({ from: "/record" });
 
   useEffect(() => {
@@ -82,7 +81,7 @@ function RecordPage() {
 
   const selectNotes = () => {
     setUsedOwnNotes(true);
-    navigate({ search: {}, replace: true });
+    navigate({ search: { id: undefined }, replace: true });
   };
 
   const publicReady = isPublicUseReady(record);
