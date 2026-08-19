@@ -1,224 +1,140 @@
 # Customer Proof AI Layer
 
-Update the Customer Proof AI Layer app using the Aurics.ai visual system and revised product direction.
+**Rebuilding Customer Marketing to be AI-Native.**
 
-Important palette correction:
+Customer proof lives in transcripts, QBR notes, call excerpts, and team memory — unstructured, unapproved, and impossible to reuse safely. This is a governance layer that turns that raw material into **Customer Proof Records** GTM teams can search, approve, measure, and reuse.
 
-Do not use orange. Replace all orange accents with Signal Yellow #F4CC48.
+**Live demo:** https://customer-proof-ai-layer.lovable.app
 
-Use this Aurics palette:
+> **AI structures and adapts customer proof. Humans approve what is true, current, commercially useful, and safe to use.**
 
-- Midnight Plum #120D22: dark hero backgrounds, deep sections, app header
+Part of [Aurics Lab](https://raina7sri.github.io/aurics/) — AI-native GTM tools, built in the open.
 
-- Deep Plum #24143F: primary text, dark cards, strong labels
+---
 
-- Strategic Violet #5B44D4: primary action accent, buttons, links, active navigation, key lines
+## The problem this solves
 
-- Pothos Green #3F8F4E: system/growth accent, approval states, positive status, metrics
+Every GTM team rewrites the same customer story. Sales writes an outreach line, Marketing writes a case study, the website writes a proof block, AR/PR writes a briefing note — each from a different reading of the same call, each with a slightly different claim, none of them governed.
 
-- Signal Yellow #F4CC48: high-attention proof/data/warning accent, active node, small highlights
+The failure mode is not that teams lack proof. It's that nothing decides **how far a claim may go**. So either proof goes unused, or it overreaches.
 
-- Warm White #F8F5EC: main light background, cards, readable canvas
+This layer puts a governed record between the raw material and the output. Customer Marketing / PMM owns the record. Sales, CS, Marketing, Website, AR/PR, and Events consume it.
 
-Design direction:
+## How it works
 
-This should feel like an Aurics Lab tool: executive-ready, strategic, operator-built, and productized.
+Raw customer material → **Customer Proof Record** → role-specific outputs, each governance-checked.
 
-It should not feel like a generic AI SaaS template.
+### The Customer Proof Record
 
-Use generous whitespace, thin dividers, deep plum/navy text, violet structure, green approval/status cues, and yellow only for proof/data/warning emphasis.
+Five fields, and everything downstream is generated from the approved proof only — never from ungoverned raw notes:
 
-No orange. No gradients. No glossy AI aesthetic. No stock imagery. No 3D.
+1. **Customer context** — who the customer is and the scope of the deployment
+2. **Proof priority** — what this proof is best used to demonstrate
+3. **Buyer problem** — the pre-purchase problem
+4. **Approved proof** — the conservative, defensible outcome statement
+5. **Use controls** — evidence strength, approval status, permission type, customer load
 
-Product positioning:
-
-Title: Customer Proof AI Layer
-
-Subtitle: Rebuilding customer marketing to be AI-native.
-
-Product promise: Make customer proof searchable, approved, measurable, and reusable across GTM teams.
-
-Core product principle:
-
-AI structures and adapts customer proof. Humans approve what is true, current, commercially useful, and safe to use.
-
-First-screen behavior:
-
-Use a split-screen first view if possible:
-
-Left side: Start with a sample record
-
-Right side: Enter your own customer notes
-
-Default preloaded sample:
-
-Agentic commerce / product intelligence platform
-
-But show all five sample records as equal-weight tabs or cards:
-
-1. Enterprise payments platform
-
-2. Agentic commerce / product intelligence platform
-
-3. AI infrastructure / developer platform
-
-4. CRM platform
-
-5. Enterprise AI platform
-
-Do not make agentic commerce look like the only or primary use case. It is just the default selected sample.
-
-Customer Proof Record fields:
-
-Use exactly these five labels:
-
-1. Customer context
-
-2. Proof priority
-
-3. Buyer problem
-
-4. Approved proof
-
-5. Use controls
-
-Role/output cards:
-
-Use exactly these five output labels:
+### The outputs
 
 1. Proof summary for Sales outreach
-
 2. Business expansion note
-
 3. Marketing case study brief
-
 4. Website proof block
-
 5. External approved proof note
 
-Governance:
+### The governance check
 
-Keep the human correction moment visible and important.
-
-Show:
-
-AI extraction:
-
-“The platform increased conversion by 12%.”
-
-Human-approved version:
-
-“During a six-week pilot, AI-referred sessions converted 12% above the site average. Referral volume remained limited, so this is classified as an early commercial signal, not validated enterprise ROI.”
-
-Add note:
-
-“AI can surface evidence. Humans decide the claim scope.”
-
-Governance check under generated outputs:
+Every generated output is checked against the record's use controls before it is produced:
 
 - Source attached
-
 - Permission checked
-
 - Approval checked
-
 - Claim scope preserved
 
-Excluded from output:
+Anything held out of the output is listed with its reason — so the exclusion is visible, not silent.
 
-“Excluded ‘validated ROI’ language because the record is approved only as an early commercial signal.”
+### The human correction moment
 
-Search/filtering:
+This is the part the demo is built around. AI extraction produces:
 
-Include simple search and filter chips:
+> "The platform increased conversion by 12%."
 
-- Proof priority
+The human-approved version:
 
-- Buyer problem
+> "During a six-week pilot, AI-referred sessions converted 12% above the site average. Referral volume remained limited, so this is classified as an early commercial signal, not validated enterprise ROI."
 
-- Vertical or use case
+*AI can surface evidence. Humans decide the claim scope.*
 
-- Approval status
+Governance defaults are enforced in code, not left to the model — see [`src/lib/extract.server.ts`](src/lib/extract.server.ts). Any quantified business outcome the material does not explicitly approve is stripped from approved proof and moved to the excluded list, and every new record starts at `Private use` / `Internal review` regardless of what the notes claim.
 
-- Permission type
+## Walkthrough
 
-- Customer load
+| Route | What it does |
+| --- | --- |
+| `/` | Start — pick one of five sample records, or paste your own customer notes |
+| `/create` | Structure raw material into a Customer Proof Record |
+| `/record` | Review the governed record and the human correction moment |
+| `/use` | Generate role-specific outputs with governance checks |
+| `/library` | Search and filter records by priority, problem, vertical, approval, permission, load |
+| `/metrics` | Proof system health — ready-to-use proof, source coverage, reuse count, customer load |
+| `/expansion` | How this could expand: CRM/Gong/transcript integrations, approval routing, semantic search, proof gap analysis, field usage tracking, revenue influence attribution |
 
-Metrics:
+## Sample data
 
-Show five top metrics:
+**Sample data — category-referenced synthetic examples. Not real customer claims.** The five sample records (enterprise payments, agentic commerce, AI infrastructure, CRM, enterprise AI) are illustrative, and no sample is the primary use case.
 
-- Ready-to-use proof: 4 of 5
+Notes you paste into the app are not stored. They are sent to the extraction model, structured into a record, and held in browser state for the session only.
 
-- Source coverage: 5 of 5
+## Tech stack
 
-- Proof coverage: 5 categories
+- [TanStack Start](https://tanstack.com/start) (SSR) with TanStack Router + Query
+- React 19, TypeScript, Vite 8
+- Tailwind CSS v4, [shadcn/ui](https://ui.shadcn.com) on Radix primitives
+- Zod for server-function input validation
+- Nitro for the server build
 
-- Reuse count: 5 outputs generated
+## Running locally
 
-- Customer load: 3 Available · 1 Reuse only · 0 Paused
-
-Future expansion:
-
-Keep a visible section called “How this could expand.”
-
-Include:
-
-- CRM, Gong, call transcript, and case study source integrations
-
-- approval workflow routing
-
-- semantic search across customer proof
-
-- proof gap analysis by product, segment, or buyer objection
-
-- field usage tracking
-
-- revenue influence attribution
-
-- customer fatigue automation
-
-- analyst / PR proof tracking
-
-- launch and sales enablement integrations
-
-Sample data disclaimer:
-
-Show this clearly:
-
-“Sample data — category-referenced synthetic examples. Not real customer claims.”
-
-Overall goal:
-
-The app should look like a governed customer proof system, not an AI writing tool.
-
-The user should immediately understand:
-
-rough customer material becomes a Customer Proof Record;
-
-a human governs the proof;
-
-GTM teams reuse it safely across Sales, CS, Marketing, Website, Analyst/PR, and Events.
-
-This project was built with [Lovable](https://lovable.dev).
-
-**Live app**: https://customer-proof-ai-layer.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/59a61905-9f49-43d9-aa8f-07d498782618).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Requires Node.js 22+.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+git clone https://github.com/raina7sri/customer-proof-ai-layer
+cd customer-proof-ai-layer
+npm install
 npm run dev
 ```
+
+> **Use `npm`, not `bun`.** The committed `bun.lock` pins tarball URLs to Lovable's internal
+> package mirror, which is not reachable outside their build sandbox. `npm install` resolves
+> the same dependencies from the public registry.
+
+Other scripts: `npm run build`, `npm run preview`, `npm run lint`, `npm run format`.
+
+### AI extraction
+
+The sample-record path runs fully offline. The **"Enter your own notes"** path calls a server function that hits the Lovable AI Gateway and requires `LOVABLE_API_KEY` in the environment:
+
+```sh
+LOVABLE_API_KEY=... npm run dev
+```
+
+That key is provisioned by Lovable's hosting, so on the deployed lovable.app app it is already set. Running locally or self-hosting without it leaves the sample path working and surfaces *"AI is not configured for this project"* on the own-notes path. Swapping [`extract.server.ts`](src/lib/extract.server.ts) to call a provider API directly is the route to hosting this anywhere else.
+
+## Design system
+
+Aurics palette — no orange, no gradients, no glossy AI aesthetic:
+
+| Token | Hex | Use |
+| --- | --- | --- |
+| Midnight Plum | `#120D22` | Dark hero backgrounds, app header |
+| Deep Plum | `#24143F` | Primary text, dark cards, strong labels |
+| Strategic Violet | `#5B44D4` | Primary action accent, links, active nav |
+| Pothos Green | `#3F8F4E` | System/growth accent, approval states, metrics |
+| Signal Yellow | `#F4CC48` | Proof/data/warning emphasis, active node |
+| Warm White | `#F8F5EC` | Main light background, cards |
+
+Full spec in [`docs/product-brief.md`](docs/product-brief.md).
+
+## License
+
+MIT — see [LICENSE](LICENSE).
