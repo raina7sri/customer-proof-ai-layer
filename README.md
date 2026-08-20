@@ -1,6 +1,6 @@
 # Customer Proof AI Layer
 
-**Rebuilding Customer Marketing to be AI-Native.**
+**Rebuilding Customer Advocacy & Marketing to be AI-Native.**
 
 Customer proof lives in transcripts, QBR notes, call excerpts, and team memory — unstructured, unapproved, and impossible to reuse safely. This is a governance layer that turns that raw material into **Customer Proof Records** GTM teams can search, approve, measure, and reuse.
 
@@ -18,7 +18,7 @@ Every GTM team rewrites the same customer story. Sales writes an outreach line, 
 
 The failure mode is not that teams lack proof. It's that nothing decides **how far a claim may go**. So either proof goes unused, or it overreaches.
 
-This layer puts a governed record between the raw material and the output. Customer Marketing / PMM owns the record. Sales, CS, Marketing, Website, AR/PR, and Events consume it.
+This layer puts a governed record between the raw material and the output. Customer Advocacy & Marketing / Product Marketing owns the record. Sales, CS, Marketing, Website, AR/PR, and Events consume it.
 
 ## How it works
 

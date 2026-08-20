@@ -1,7 +1,7 @@
 # Customer Proof AI Layer
 
 > An Aurics Lab prototype that turns rough customer material into governed customer proof
-> GTM teams can safely reuse. Subtitle: Rebuilding customer marketing to be AI-native.
+> GTM teams can safely reuse. Subtitle: Rebuilding Customer Advocacy & Marketing to be AI-native.
 
 Core principle: AI structures and adapts customer proof. Humans approve what is true,
 current, commercially useful, and safe to use.
@@ -9,7 +9,7 @@ current, commercially useful, and safe to use.
 Product promise: make customer proof searchable, approved, measurable, and reusable
 across GTM teams.
 
-Ownership: Customer Marketing / PMM owns the proof record. Sales, CS, Marketing,
+Ownership: Customer Advocacy & Marketing / Product Marketing owns the proof record. Sales, CS, Marketing,
 Website, AR/PR, and Events use it.
 
 ## Customer Proof Record fields

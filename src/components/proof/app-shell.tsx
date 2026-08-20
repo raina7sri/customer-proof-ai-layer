@@ -28,7 +28,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 Customer Proof AI Layer
               </div>
               <p className="mt-1 text-sm text-midnight-foreground/70">
-                Rebuilding Customer Marketing to be AI-Native.
+                Rebuilding Customer Advocacy & Marketing to be AI-Native.
               </p>
             </div>
             <p className="max-w-xs text-xs leading-relaxed text-midnight-foreground/60">

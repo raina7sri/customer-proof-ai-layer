@@ -107,7 +107,7 @@ export const OUTPUTS: OutputDefinition[] = [
   {
     id: "case-study-brief",
     label: "Marketing case study brief",
-    team: "Customer marketing",
+    team: "Customer Advocacy & Marketing",
     purpose: "Brief a writer on angle, buyer problem, and approved proof points.",
     requiresPublic: true,
   },

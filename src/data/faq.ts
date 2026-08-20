@@ -4,7 +4,7 @@ export const FAQ: FaqItem[] = [
   {
     question: "What is a Customer Proof AI Layer?",
     answer:
-      "It is a governance layer for customer proof to rebuild Customer Marketing to be AI-native. Rough customer material such as transcripts, call notes, QBR notes, existing case studies are structured into a Customer Proof Record that cross-functional GTM teams can search, adapt, and reuse.",
+      "It is a governance layer for customer proof to rebuild Customer Advocacy & Marketing to be AI-native. Rough customer material such as transcripts, call notes, QBR notes, existing case studies are structured into a Customer Proof Record that cross-functional GTM teams can search, adapt, and reuse.",
   },
   {
     question: "What is a Customer Proof Record?",
@@ -19,7 +19,7 @@ export const FAQ: FaqItem[] = [
   {
     question: "Who owns the proof record, and who uses it?",
     answer:
-      "Customer Marketing / PMM owns the proof record. Sales, CS, Marketing, Website, AR/PR, and Events use it. One approved record serves every team instead of each team rewriting its own version of the customer story.",
+      "Customer Advocacy & Marketing / Product Marketing owns the proof record. Sales, CS, Marketing, Website, AR/PR, and Events use it. One approved record serves every team instead of each team rewriting its own version of the customer story.",
   },
   {
     question: "How is proof reuse governed?",
@@ -27,8 +27,8 @@ export const FAQ: FaqItem[] = [
       "Every record carries evidence strength, approval status, permission type, and customer load. Outputs are checked against those controls before generation: source attached, permission checked, approval checked, claim scope preserved. Anything held out of the output is listed with a reason.",
   },
   {
-    question: "What does AI-native customer marketing mean here?",
+    question: "What does AI-native Customer Advocacy & Marketing mean here?",
     answer:
-      "AI-native GTM means redesigning the workflow itself. Here, AI structures customer proof so teams can govern, retrieve, and reuse it, which rebuilds customer marketing to be AI-native.",
+      "AI-native GTM means redesigning the workflow itself. Here, AI structures customer proof so teams can govern, retrieve, and reuse it, which rebuilds Customer Advocacy & Marketing to be AI-native.",
   },
 ];

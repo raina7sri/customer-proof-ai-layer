@@ -38,7 +38,7 @@ Product positioning:
 
 Title: Customer Proof AI Layer
 
-Subtitle: Rebuilding customer marketing to be AI-native.
+Subtitle: Rebuilding Customer Advocacy & Marketing to be AI-native.
 
 Product promise: Make customer proof searchable, approved, measurable, and reusable across GTM teams.
 
