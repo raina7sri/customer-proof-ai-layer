@@ -118,7 +118,7 @@ function Index() {
         <p className="mt-3 text-base text-plum/80">Rebuilding Customer Advocacy & Marketing to be AI-Native.</p>
         <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           Customer proof often lives in transcripts, case studies, call notes, and team memory. This
-          layer turns that material into governed proof that GTM teams can search, approve, measure,
+          layer turns that material into governed proof that Product Marketing, Customer Marketing, and broader GTM teams can search, approve, measure,
           and reuse.
         </p>
         <div className="mt-8 flex flex-wrap items-center gap-3">
