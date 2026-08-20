@@ -29,6 +29,6 @@ export const FAQ: FaqItem[] = [
   {
     question: "What does AI-native Customer Advocacy & Marketing mean here?",
     answer:
-      "AI-native GTM means redesigning the workflow itself. Here, AI structures customer proof so teams can govern, retrieve, and reuse it, which rebuilds Customer Advocacy & Marketing to be AI-native.",
+      "AI-native GTM & Marketing means redesigning the workflow itself. Here, AI structures customer proof so teams can govern, retrieve, and reuse it, which rebuilds Customer Advocacy & Marketing to be AI-native.",
   },
 ];

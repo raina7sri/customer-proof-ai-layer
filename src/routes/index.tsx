@@ -52,7 +52,7 @@ export const Route = createFileRoute("/")({
           publisher: {
             "@type": "Organization",
             name: "Aurics Lab",
-            url: SITE,
+            url: "https://aurics.ai",
           },
         }),
       },
@@ -142,7 +142,7 @@ function Index() {
         <div className="border-l-2 border-violet pl-5">
           <MicroLabel className="text-violet">Why this is AI-native</MicroLabel>
           <p className="mt-3 text-sm leading-relaxed text-plum/85">
-            AI-native GTM means redesigning the workflow. Here, AI structures customer proof as a
+            AI-native GTM & Marketing means redesigning the workflow. Here, AI structures customer proof as a
             layer on top of traditional Customer Advocacy & Marketing to build a governed, retrievable and
             structured set of outputs for use across functions.
           </p>
