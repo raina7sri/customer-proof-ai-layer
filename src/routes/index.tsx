@@ -115,7 +115,7 @@ function Index() {
         <h1 className="mt-4 text-3xl font-semibold leading-tight text-plum sm:text-4xl">
           Customer Proof AI Layer
         </h1>
-        <p className="mt-3 text-base text-plum/80">Rebuilding Customer Marketing to be AI-Native.</p>
+        <p className="mt-3 text-base text-plum/80">Rebuilding Customer Advocacy & Marketing to be AI-Native.</p>
         <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           Customer proof often lives in transcripts, case studies, call notes, and team memory. This
           layer turns that material into governed proof that GTM teams can search, approve, measure,
@@ -143,14 +143,14 @@ function Index() {
           <MicroLabel className="text-violet">Why this is AI-native</MicroLabel>
           <p className="mt-3 text-sm leading-relaxed text-plum/85">
             AI-native GTM means redesigning the workflow. Here, AI structures customer proof as a
-            layer on top of traditional Customer Marketing to build a governed, retrievable and
+            layer on top of traditional Customer Advocacy & Marketing to build a governed, retrievable and
             structured set of outputs for use across functions.
           </p>
         </div>
         <div className="border-l-2 border-hairline pl-5">
           <MicroLabel>Ownership</MicroLabel>
           <p className="mt-3 text-sm leading-relaxed text-plum/85">
-            Customer Marketing / PMM owns the proof record.
+            Customer Advocacy & Marketing / Product Marketing owns the proof record.
             <br />
             Sales, CS, Marketing, Website, AR/PR, and Events use it.
           </p>
