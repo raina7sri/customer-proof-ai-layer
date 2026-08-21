@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Proof AI Layer — Governed Customer Proof | Aurics Lab</title>
+<meta name="description" content="Turn transcripts, QBR notes and call excerpts into governed Customer Proof Records that Sales, CS, Marketing and PR can reuse. Open source, runs in your browser.">
+<link rel="canonical" href="https://aurics.ai/labs/customer-proof-ai-layer">
+<meta property="og:title" content="Customer Proof AI Layer — Governed Customer Proof">
+<meta property="og:description" content="Rough customer notes become a governed Customer Proof Record, then reusable proof for Sales, CS, Marketing, Website and Analyst/PR.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://aurics.ai/labs/customer-proof-ai-layer">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  :root{
+    --midnight:#120D22; --plum:#24143F; --violet:#5B44D4; --green:#3F8F4E;
+    --yellow:#F4CC48; --warm:#F8F5EC; --card:#fff;
+    --hairline:#e3ddd0; --muted:#6b6280; --tint:#efeafd;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--warm);color:var(--plum);line-height:1.55;
+    font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+    -webkit-font-smoothing:antialiased}
+  a{color:var(--violet)}
+  h1,h2,h3{color:var(--midnight);margin:0}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem}
+
+  /* ---- header ---- */
+  header{background:var(--midnight)}
+  .head-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1.5rem;
+    align-items:baseline;padding:2rem 0 1.4rem}
+  .eyebrow{display:flex;align-items:center;gap:.5rem;font-size:.65rem;font-weight:700;
+    letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+  .eyebrow .dot{width:8px;height:8px;background:var(--yellow)}
+  .head-top h1{color:#fff;font-size:1.5rem;margin-top:.7rem;font-weight:600}
+  .head-top .sub{color:rgba(255,255,255,.7);font-size:.9rem;margin:.25rem 0 0}
+  .head-top .principle{max-width:22rem;font-size:.75rem;line-height:1.6;color:rgba(255,255,255,.6)}
+  nav{border-top:1px solid rgba(255,255,255,.1)}
+  nav .wrap{display:flex;gap:.25rem;overflow-x:auto}
+  nav a{flex-shrink:0;padding:.85rem .8rem;font-size:.75rem;font-weight:500;letter-spacing:.02em;
+    color:rgba(255,255,255,.6);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap}
+  nav a:hover{color:#fff}
+  nav a.active{color:#fff;border-bottom-color:var(--yellow)}
+
+  main{padding:3rem 0 4rem}
+  .step-label{font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--violet)}
+  .step-label.plain{color:var(--muted)}
+  h2.title{font-size:1.5rem;margin:.5rem 0 0;font-weight:600}
+  .lead{color:var(--muted);font-size:.9rem;max-width:46rem;margin:.6rem 0 0}
+  section.view{display:none}
+  section.view.active{display:block}
+  .divider{height:1px;background:var(--hairline);margin:2.5rem 0}
+
+  /* ---- primitives ---- */
+  .panel{background:var(--card);border:1px solid var(--hairline);padding:1.4rem}
+  .panel.dark{background:var(--plum);border-color:var(--plum);color:rgba(255,255,255,.85)}
+  .panel.dark h3{color:#fff}
+  .micro{font-size:.65rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted)}
+  .micro.violet{color:var(--violet)}
+  .micro.green{color:var(--green)}
+  .micro.yellow{color:var(--yellow)}
+  .micro.on-dark{color:rgba(255,255,255,.55)}
+  .badge{display:inline-block;font-size:.65rem;font-weight:600;padding:.25rem .6rem;
+    border:1px solid var(--hairline);color:var(--muted);background:var(--card)}
+  .badge.green{color:var(--green);border-color:var(--green)}
+  .badge.violet{color:var(--violet);border-color:var(--violet)}
+  .badge.yellow{color:#7a5c00;border-color:var(--yellow);background:#fdf6dd}
+  .badge.grey{color:var(--muted)}
+  button, .btn{font:inherit;cursor:pointer;border:1px solid transparent;padding:.65rem 1.3rem;
+    font-size:.85rem;font-weight:500;text-decoration:none;display:inline-block}
+  .btn-primary{background:var(--violet);color:#fff}
+  .btn-primary:hover{background:var(--plum)}
+  .btn-primary:disabled{opacity:.4;cursor:not-allowed}
+  .btn-ghost{background:transparent;color:var(--plum);border-color:rgba(36,20,63,.25)}
+  .btn-ghost:hover{border-color:var(--violet);color:var(--violet)}
+  .row{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center}
+  .grid-2{display:grid;gap:2.5rem;grid-template-columns:1fr}
+  @media(min-width:900px){.grid-2{grid-template-columns:1fr 1fr}}
+  .note{font-size:.7rem;color:var(--muted)}
+  .stack>*+*{margin-top:1rem}
+
+  /* ---- start ---- */
+  .record-pick{display:flex;align-items:center;gap:.8rem;width:100%;text-align:left;
+    background:var(--card);border:1px solid var(--hairline);padding:.8rem 1rem;margin-bottom:.5rem}
+  .record-pick:hover{border-color:rgba(91,68,212,.4)}
+  .record-pick.on{border-color:var(--violet);background:rgba(91,68,212,.06)}
+  .record-pick .mark{width:8px;height:8px;background:var(--hairline);flex-shrink:0}
+  .record-pick.on .mark{background:var(--yellow)}
+  .record-pick .num{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.7rem;color:var(--muted)}
+  .record-pick .name{font-size:.85rem;font-weight:500;color:var(--plum)}
+  textarea{width:100%;border:1px solid var(--hairline);background:var(--card);padding:1rem;
+    font:inherit;font-size:.8rem;line-height:1.6;color:var(--plum);outline:none;resize:vertical}
+  textarea:focus{border-color:var(--violet)}
+  ul.notes{margin:.8rem 0 0;padding-left:1.1rem}
+  ul.notes li{font-size:.78rem;line-height:1.65;margin-bottom:.4rem;color:rgba(36,20,63,.85)}
+
+  /* ---- create ---- */
+  .steps{list-style:none;margin:1.5rem 0 0;padding:0;max-width:34rem}
+  .steps li{display:flex;align-items:center;gap:.8rem;padding:.7rem 0;
+    border-bottom:1px solid var(--hairline);font-size:.85rem;color:var(--muted)}
+  .steps li .tick{width:1.1rem;flex-shrink:0;font-size:.8rem;color:var(--hairline)}
+  .steps li.done{color:var(--plum)}
+  .steps li.done .tick{color:var(--green)}
+  .steps li.now{color:var(--violet);font-weight:500}
+  .steps li.now .tick{color:var(--violet)}
+
+  /* ---- record ---- */
+  .field+.field{margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid var(--hairline)}
+  .field p{margin:.4rem 0 0;font-size:.85rem;line-height:1.6}
+  .strike{text-decoration:line-through;color:rgba(255,255,255,.55)}
+  .kv{display:flex;justify-content:space-between;gap:1rem;padding:.5rem 0;
+    border-bottom:1px solid var(--hairline);font-size:.78rem}
+  .kv:last-child{border-bottom:0}
+  .kv .k{color:var(--muted)}
+  .kv .v{font-weight:500;text-align:right}
+  .chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
+
+  /* ---- use ---- */
+  .output{border:1px solid var(--hairline);background:var(--card);padding:1.2rem;margin-bottom:1rem}
+  .output header{background:none;display:flex;flex-wrap:wrap;justify-content:space-between;
+    gap:.6rem;align-items:flex-start}
+  .output h3{font-size:.95rem;font-weight:600}
+  .output .team{font-size:.7rem;color:var(--muted);margin-top:.15rem}
+  .output .body{margin-top:.9rem;padding:.9rem;background:var(--warm);
+    border-left:2px solid var(--violet);font-size:.8rem;line-height:1.65}
+  .checks{display:flex;flex-wrap:wrap;gap:.5rem 1.1rem;margin-top:.9rem}
+  .check{font-size:.7rem;color:var(--green);display:flex;align-items:center;gap:.35rem}
+  .check.fail{color:#a23b3b}
+  .reasons{margin:.8rem 0 0;padding:.7rem .9rem;background:#fdf6dd;border-left:2px solid var(--yellow)}
+  .reasons.block{background:#fbeaea;border-left-color:#a23b3b}
+  .reasons li{font-size:.72rem;line-height:1.6;margin-left:.9rem}
+
+  /* ---- library / metrics ---- */
+  .filters{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    margin:1.5rem 0}
+  select{width:100%;font:inherit;font-size:.78rem;padding:.5rem;border:1px solid var(--hairline);
+    background:var(--card);color:var(--plum);outline:none}
+  select:focus{border-color:var(--violet)}
+  .lib-card{border:1px solid var(--hairline);background:var(--card);padding:1.2rem;margin-bottom:.8rem}
+  .lib-card h3{font-size:.95rem;font-weight:600}
+  .metric{border:1px solid var(--hairline);background:var(--card);padding:1.2rem}
+  .metric .val{font-size:1.6rem;font-weight:600;color:var(--midnight);margin:.4rem 0 .3rem}
+  .metrics-grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    margin-top:1.5rem}
+  .exp+.exp{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--hairline)}
+  .exp h3{font-size:1rem;font-weight:600}
+  .exp p{font-size:.85rem;line-height:1.65;margin:.5rem 0 0}
+  .exp .obj{margin-top:.6rem;font-size:.78rem;color:var(--violet)}
+
+  footer{border-top:1px solid var(--hairline);margin-top:3rem;padding:2rem 0}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center}
+  footer .note{font-size:.7rem;letter-spacing:.02em}
+  footer a{font-size:.75rem;font-weight:500;text-decoration:none;margin-left:1rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap head-top">
+    <div>
+      <div class="eyebrow"><span class="dot"></span>Aurics Lab</div>
+      <h1>Customer Proof AI Layer</h1>
+      <p class="sub">Rebuilding Customer Advocacy &amp; Marketing to be AI-Native.</p>
+    </div>
+    <p class="principle">AI structures and adapts customer proof. Humans approve what is true,
+      current, commercially useful, and safe to use.</p>
+  </div>
+  <nav><div class="wrap" id="nav"></div></nav>
+</header>
+
+<main class="wrap">
+
+  <!-- ================= START ================= -->
+  <section class="view" id="v-start">
+    <div class="step-label">Guided demo</div>
+    <h2 class="title">Start with customer material</h2>
+    <p class="lead">Customer proof often lives in transcripts, case studies, call notes, and team
+      memory. This layer turns that material into governed proof that GTM teams can search,
+      approve, measure, and reuse.</p>
+
+    <div class="divider"></div>
+
+    <div class="grid-2">
+      <div>
+        <div class="micro">Sample</div>
+        <h3 style="margin-top:.4rem;font-size:1.05rem">Start with a sample record</h3>
+        <p class="note" style="margin:.5rem 0 1.2rem">Five equal-weight sample categories.
+          Selecting one loads its raw customer material.</p>
+        <div id="pick-list"></div>
+
+        <div class="panel" style="margin-top:1.4rem">
+          <div class="micro">Selected sample · raw customer material</div>
+          <ul class="notes" id="pick-notes"></ul>
+          <div class="chips" id="pick-chips"></div>
+          <p class="note" style="margin-top:1rem" id="pick-disclaimer"></p>
+        </div>
+
+        <div class="row" style="margin-top:1.2rem">
+          <button class="btn-primary" id="run-sample">Run sample workflow →</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="micro">Your material</div>
+        <h3 style="margin-top:.4rem;font-size:1.05rem">Enter your own customer notes</h3>
+        <p class="note" style="margin:.5rem 0 1rem">Nothing is stored and nothing is sent
+          anywhere — this page makes no network calls. Your text is structured into the same
+          record format in your browser, with conservative governance defaults: internal use,
+          internal review, and no quantified claim unless the material says the customer
+          approved it.</p>
+        <textarea id="own-notes" rows="12" placeholder="Paste customer interview notes, call excerpts, QBR notes, event meeting notes, or existing case study material."></textarea>
+        <div class="row" style="margin-top:.9rem">
+          <button class="btn-ghost" id="run-own" disabled>Continue with my notes →</button>
+          <span class="note" id="own-count">0 characters · 40 minimum</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CREATE ================= -->
+  <section class="view" id="v-create">
+    <div class="step-label">Step 1</div>
+    <h2 class="title">Create Customer Proof Record</h2>
+    <p class="lead" id="create-lead"></p>
+    <ol class="steps" id="create-steps"></ol>
+    <div class="row" style="margin-top:1.6rem">
+      <button class="btn-primary" id="to-record" disabled>Review the record →</button>
+      <button class="btn-ghost" id="back-start">Start over</button>
+    </div>
+  </section>
+
+  <!-- ================= RECORD ================= -->
+  <section class="view" id="v-record">
+    <div class="step-label">Step 2</div>
+    <h2 class="title">Review Customer Proof Record</h2>
+    <p class="lead">The record is the governed unit. Nothing downstream is generated from raw
+      notes — only from approved proof.</p>
+
+    <div class="row" style="margin:1.5rem 0" id="record-tabs"></div>
+
+    <div class="grid-2">
+      <div class="panel" id="record-card"></div>
+      <div class="panel dark" id="record-review"></div>
+    </div>
+
+    <div class="row" style="margin-top:1.6rem">
+      <button class="btn-primary" id="to-use">Use this proof →</button>
+    </div>
+  </section>
+
+  <!-- ================= USE ================= -->
+  <section class="view" id="v-use">
+    <div class="step-label">Step 3</div>
+    <h2 class="title">Use this proof</h2>
+    <p class="lead">Every output is generated from approved proof only, then checked against the
+      record's use controls before it is produced. Anything held back is listed with its reason.</p>
+    <div class="row" style="margin:1.5rem 0" id="use-tabs"></div>
+    <div id="use-outputs"></div>
+  </section>
+
+  <!-- ================= LIBRARY ================= -->
+  <section class="view" id="v-library">
+    <div class="step-label plain">Proof library</div>
+    <h2 class="title">Search and filter proof records</h2>
+    <p class="lead">One approved record serves every team. Filter by what a buyer is asking about,
+      or by what the record is cleared for.</p>
+    <div class="filters" id="lib-filters"></div>
+    <p class="note" id="lib-count"></p>
+    <div id="lib-results" style="margin-top:1rem"></div>
+  </section>
+
+  <!-- ================= METRICS ================= -->
+  <section class="view" id="v-metrics">
+    <div class="step-label plain">Metrics</div>
+    <h2 class="title">Proof system health</h2>
+    <p class="lead">Whether the proof system is healthy is a measurable question: how much proof is
+      cleared, how well sourced it is, and how hard you are leaning on each customer.</p>
+    <div class="metrics-grid" id="metrics-grid"></div>
+  </section>
+
+  <!-- ================= EXPANSION ================= -->
+  <section class="view" id="v-expansion">
+    <div class="step-label plain">Expansion</div>
+    <h2 class="title">Where this could go</h2>
+    <p class="lead" id="exp-where"></p>
+    <div class="panel" style="margin-top:1.5rem" id="exp-summary"></div>
+    <div style="margin-top:2rem" id="exp-sections"></div>
+    <div class="panel" style="margin-top:2rem;border-left:2px solid var(--violet)">
+      <p style="margin:0;font-size:.88rem" id="exp-closing"></p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="note" id="foot-disclaimer"></span>
+    <span>
+      <a href="https://github.com/raina7sri/customer-proof-ai-layer">Source →</a>
+      <a href="https://aurics.ai/labs/customer-proof-ai-layer">About this tool →</a>
+      <a href="https://aurics.ai">aurics.ai →</a>
+    </span>
+  </div>
+</footer>
+
+<script src="records.js"></script>
+<script>
+/* ============================================================================
+ * Customer Proof AI Layer — static demo
+ * No network calls, no API keys, no build step. All logic runs in the browser.
+ * Governance rules are ported from src/lib/governance.ts — keep them in step.
+ * ==========================================================================*/
+(function () {
+  "use strict";
+  var D = window.PROOF_DATA;
+  var $ = function (id) { return document.getElementById(id); };
+
+  var VIEWS = [
+    { hash: "start",     label: "Start" },
+    { hash: "create",    label: "Create record" },
+    { hash: "record",    label: "Review record" },
+    { hash: "use",       label: "Use this proof" },
+    { hash: "library",   label: "Proof library" },
+    { hash: "metrics",   label: "Metrics" },
+    { hash: "expansion", label: "Expansion" }
+  ];
+
+  var state = {
+    selectedId: D.DEFAULT_RECORD_ID || D.PROOF_RECORDS[0].id,
+    customRecord: null,
+    usedOwnNotes: false,
+    generated: false
+  };
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+  function allRecords() {
+    return state.customRecord ? [state.customRecord].concat(D.PROOF_RECORDS) : D.PROOF_RECORDS;
+  }
+  function current() {
+    var list = allRecords();
+    for (var i = 0; i < list.length; i++) if (list[i].id === state.selectedId) return list[i];
+    return list[0];
+  }
+
+  /* ---- governance (ported from src/lib/governance.ts) ---- */
+  function evaluateReuse(record, output) {
+    var blocks = [], warns = [];
+    if (!record.hasSourceMaterial) blocks.push("No source material attached to this record.");
+    if (record.useControls.customerLoad === "Paused")
+      blocks.push("Customer is paused. Reuse is not permitted.");
+    if (output.requiresPublic && record.useControls.permission !== "Public use")
+      blocks.push("Permission is " + record.useControls.permission.toLowerCase() +
+        "; this output is external-facing.");
+
+    if (record.useControls.approvalStatus === "Needs update")
+      warns.push("Record is flagged as needing an update.");
+    if (record.useControls.approvalStatus !== "Ready to use")
+      warns.push("Approval status is " + record.useControls.approvalStatus.toLowerCase() +
+        ", not ready to use.");
+    if (output.requiresPublic && record.useControls.approvalStatus === "Internal review")
+      warns.push("External approval is required before publishing this output.");
+    if (record.useControls.customerLoad === "Reuse only")
+      warns.push("Customer is reuse-only. Do not request new customer time.");
+    if (record.updateFlag) warns.push("An update trigger is active on this record.");
+
+    if (blocks.length) return { level: "block", reasons: blocks };
+    if (warns.length) return { level: "warn", reasons: warns };
+    return { level: "allow", reasons: [] };
+  }
+  function isPublicUseReady(r) {
+    return r.useControls.permission === "Public use" &&
+      r.useControls.approvalStatus === "Ready to use" &&
+      r.useControls.evidenceStrength.indexOf("Approved") > -1 &&
+      r.useControls.evidenceStrength.indexOf("Sourced") > -1 &&
+      !r.updateFlag;
+  }
+  function readinessLabel(r) {
+    if (isPublicUseReady(r)) return "Public use ready";
+    if (r.useControls.permission !== "Public use") return r.useControls.permission + " only";
+    if (r.useControls.approvalStatus !== "Ready to use") return "Public use requested";
+    return "Public use pending review";
+  }
+  function generateOutput(record, output) {
+    switch (output.id) {
+      case "sales-outreach":
+        return "Use this when a buyer raises this concern: " + record.buyerProblem +
+          " Approved proof to reference: " + record.approvedProof +
+          " Position this as evidence of direction, not as validated enterprise ROI.";
+      case "expansion-note":
+        return "Account context: " + record.customerContext + " Expansion angle: " +
+          record.proofPriority + " Approved evidence: " + record.approvedProof;
+      case "case-study-brief":
+        return "Angle: " + record.proofPriority + " Buyer problem to open with: " +
+          record.buyerProblem + " Proof section: " + record.approvedProof +
+          " Claim scope: early commercial signal only.";
+      case "website-block":
+        return "Headline idea: " + record.proofPriority.replace(/^Show that /, "").replace(/\.$/, "") +
+          ". Body: " + record.approvedProof;
+      case "external-note":
+        return "Approved external statement: " + record.approvedProof + " Framing: " +
+          record.proofPriority + " No unapproved metric or ROI language included.";
+      default: return record.approvedProof;
+    }
+  }
+
+  /* ---- scripted extraction ------------------------------------------------
+   * The hosted app sends notes to a model. This static build deliberately does
+   * not: it applies the governance DEFAULTS only, which live in code rather
+   * than in the model. Any quantified outcome the material does not explicitly
+   * mark as customer-approved is pulled out of approved proof and listed as an
+   * exclusion — the same guard src/lib/extract.server.ts applies to real
+   * model output.
+   * --------------------------------------------------------------------- */
+  var QUANTIFIED = /(?:^|[\s(])(?:\d+(?:\.\d+)?\s?%|\$\s?\d[\d,.]*\s?(?:k|m|bn|billion|million)?|\d+(?:\.\d+)?\s?x\b)/i;
+  var APPROVAL_HINT = /\b(customer approved|approved for (?:public|external)|cleared for (?:public|external)|okay(?:ed)? to publish|public use approved)\b/i;
+
+  function scriptedExtract(text) {
+    var lines = text.split(/\r?\n|(?<=[.!?])\s+/)
+      .map(function (l) { return l.trim(); })
+      .filter(function (l) { return l.length > 2; });
+
+    var approvedOk = APPROVAL_HINT.test(text);
+    var kept = [], excluded = [];
+    lines.forEach(function (l) {
+      if (QUANTIFIED.test(l) && !approvedOk) {
+        excluded.push({
+          claim: l,
+          reason: "Quantified outcome with no stated customer approval — held out of approved proof."
+        });
+      } else { kept.push(l); }
+    });
+
+    return {
+      id: "your-notes",
+      category: "Your material",
+      shortLabel: "Your material",
+      vertical: "Not classified",
+      rawNotes: lines.slice(0, 8),
+      customerContext: kept[0] || "Not stated in the material provided.",
+      proofPriority: "Requires human input — the material does not state what this proof is best used to demonstrate.",
+      buyerProblem: kept[1] || "Not stated in the material provided.",
+      approvedProof: kept.slice(2).join(" ") || "No claim in this material is cleared for use yet.",
+      proofDataPoints: [],
+      useControls: {
+        evidenceStrength: ["Sourced"],
+        approvalStatus: "Internal review",
+        permission: "Private use",
+        customerLoad: "Available"
+      },
+      hasSourceMaterial: true,
+      updateFlag: false,
+      primaryOutput: "sales-outreach",
+      primaryOutputCopy: "",
+      claimReview: D.CLAIM_REVIEW,
+      reuseCount: 0,
+      source: "notes",
+      excludedClaims: excluded
+    };
+  }
+
+  /* ---- routing ---- */
+  function go(hash) {
+    if (location.hash !== "#/" + hash) { location.hash = "#/" + hash; }
+    else { render(); }
+  }
+  function currentHash() {
+    var h = (location.hash || "").replace(/^#\/?/, "");
+    for (var i = 0; i < VIEWS.length; i++) if (VIEWS[i].hash === h) return h;
+    return "start";
+  }
+  function render() {
+    var h = currentHash();
+    VIEWS.forEach(function (v) {
+      $("v-" + v.hash).classList.toggle("active", v.hash === h);
+    });
+    Array.prototype.forEach.call($("nav").children, function (a) {
+      a.classList.toggle("active", a.dataset.hash === h);
+    });
+    if (h === "start") renderStart();
+    if (h === "create") renderCreate();
+    if (h === "record") renderRecord();
+    if (h === "use") renderUse();
+    if (h === "library") renderLibrary();
+    window.scrollTo(0, 0);
+  }
+
+  /* ---- start ---- */
+  function renderStart() {
+    var list = D.PROOF_RECORDS;
+    $("pick-list").innerHTML = list.map(function (r, i) {
+      return '<button class="record-pick' + (r.id === state.selectedId ? " on" : "") +
+        '" data-id="' + esc(r.id) + '"><span class="mark"></span>' +
+        '<span class="num">' + (i + 1) + '</span>' +
+        '<span class="name">' + esc(r.category) + '</span></button>';
+    }).join("");
+    Array.prototype.forEach.call($("pick-list").children, function (b) {
+      b.onclick = function () {
+        state.selectedId = b.dataset.id; state.usedOwnNotes = false; renderStart();
+      };
+    });
+
+    var r = current().source === "notes" ? D.PROOF_RECORDS[0] : current();
+    $("pick-notes").innerHTML = r.rawNotes.map(function (n) {
+      return "<li>" + esc(n) + "</li>";
+    }).join("");
+    $("pick-chips").innerHTML =
+      chip(r.useControls.approvalStatus, approvalTone(r.useControls.approvalStatus)) +
+      chip(r.useControls.permission, permissionTone(r.useControls.permission)) +
+      chip(r.vertical, "grey");
+    $("pick-disclaimer").textContent = D.SAMPLE_DISCLAIMER;
+  }
+  function chip(text, tone) {
+    return '<span class="badge ' + tone + '">' + esc(text) + "</span>";
+  }
+  function approvalTone(s) {
+    if (s === "Ready to use") return "green";
+    if (s === "Needs update") return "yellow";
+    return "grey";
+  }
+  function permissionTone(p) { return p === "Public use" ? "violet" : "grey"; }
+
+  /* ---- create ---- */
+  var createTimer = null;
+  function renderCreate() {
+    var steps = D.PROCESSING_STEPS;
+    $("create-lead").textContent = state.usedOwnNotes
+      ? "Structuring your material into the record format. No model runs in this static build — the governance defaults below are applied in code."
+      : "Structuring the selected sample material into a Customer Proof Record.";
+
+    if (state.generated) { paintSteps(steps.length); $("to-record").disabled = false; return; }
+
+    var i = 0;
+    paintSteps(0);
+    $("to-record").disabled = true;
+    clearInterval(createTimer);
+    createTimer = setInterval(function () {
+      i++;
+      paintSteps(i);
+      if (i >= steps.length) {
+        clearInterval(createTimer);
+        state.generated = true;
+        $("to-record").disabled = false;
+      }
+    }, 420);
+  }
+  function paintSteps(done) {
+    $("create-steps").innerHTML = D.PROCESSING_STEPS.map(function (s, i) {
+      var cls = i < done ? "done" : (i === done ? "now" : "");
+      var tick = i < done ? "&#10003;" : "&middot;";
+      return '<li class="' + cls + '"><span class="tick">' + tick + "</span>" + esc(s) + "</li>";
+    }).join("");
+  }
+
+  /* ---- record ---- */
+  function renderRecord() {
+    var list = allRecords();
+    $("record-tabs").innerHTML = list.map(function (r) {
+      return '<button class="btn-ghost' + (r.id === state.selectedId ? " on" : "") +
+        '" data-id="' + esc(r.id) + '" style="' +
+        (r.id === state.selectedId ? "border-color:var(--violet);color:var(--violet);background:rgba(91,68,212,.06)" : "") +
+        '">' + esc(r.shortLabel || r.category) + "</button>";
+    }).join("");
+    Array.prototype.forEach.call($("record-tabs").children, function (b) {
+      b.onclick = function () { state.selectedId = b.dataset.id; renderRecord(); };
+    });
+
+    var r = current();
+    var uc = r.useControls;
+    $("record-card").innerHTML =
+      '<div style="display:flex;justify-content:space-between;gap:1rem;align-items:flex-start">' +
+        "<h3 style=\"font-size:1rem\">" + esc(r.category) + "</h3>" +
+        chip(readinessLabel(r), isPublicUseReady(r) ? "green" : "grey") +
+      "</div>" +
+      '<div style="height:1px;background:var(--hairline);margin:1rem 0"></div>' +
+      field("Customer context", r.customerContext) +
+      field("Proof priority", r.proofPriority) +
+      field("Buyer problem", r.buyerProblem) +
+      field("Approved proof", r.approvedProof) +
+      '<div class="field"><div class="micro">Use controls</div>' +
+        kv("Evidence strength", uc.evidenceStrength.join(" · ")) +
+        kv("Approval status", uc.approvalStatus) +
+        kv("Permission", uc.permission) +
+        kv("Customer load", uc.customerLoad) +
+        kv("Reuse count", String(r.reuseCount)) +
+      "</div>" +
+      (r.excludedClaims && r.excludedClaims.length
+        ? '<div class="field"><div class="micro">Held out of approved proof</div>' +
+          r.excludedClaims.map(function (e) {
+            return '<div class="reasons" style="margin-top:.6rem"><p style="margin:0;font-size:.75rem"><strong>' +
+              esc(e.claim) + "</strong></p><p style=\"margin:.3rem 0 0;font-size:.72rem;color:var(--muted)\">" +
+              esc(e.reason) + "</p></div>";
+          }).join("") + "</div>"
+        : "");
+
+    $("record-review").innerHTML =
+      '<div class="micro on-dark">Human review · claim scope' +
+        (r.source === "notes" ? "" : " (example)") + "</div>" +
+      '<p style="font-size:.75rem;line-height:1.6;margin:.8rem 0 1.2rem;color:rgba(255,255,255,.6)">' +
+        "Fixed illustrative example of the human review step. " + esc(D.SAMPLE_DISCLAIMER) + "</p>" +
+      '<div class="micro yellow">AI extraction</div>' +
+      '<p class="strike" style="font-size:.85rem;margin:.4rem 0 1.2rem">' +
+        esc(r.claimReview.ai) + "</p>" +
+      '<div class="micro green">Human-approved version — with context</div>' +
+      '<p style="font-size:.85rem;line-height:1.65;margin:.4rem 0 1.2rem;color:#fff">' +
+        esc(r.claimReview.approved) + "</p>" +
+      '<p style="font-size:.75rem;color:rgba(255,255,255,.6);margin:0;font-style:italic">' +
+        "AI can surface evidence. Humans decide the claim scope.</p>" +
+      '<div style="height:1px;background:rgba(255,255,255,.15);margin:1.2rem 0"></div>' +
+      '<p style="font-size:.72rem;color:rgba(255,255,255,.6);margin:0">' +
+        esc(D.EXCLUSION_NOTE) + "</p>";
+  }
+  function field(label, value) {
+    return '<div class="field"><div class="micro">' + esc(label) + "</div><p>" + esc(value) + "</p></div>";
+  }
+  function kv(k, v) {
+    return '<div class="kv"><span class="k">' + esc(k) + '</span><span class="v">' + esc(v) + "</span></div>";
+  }
+
+  /* ---- use ---- */
+  function renderUse() {
+    var list = allRecords();
+    $("use-tabs").innerHTML = list.map(function (r) {
+      return '<button class="btn-ghost" data-id="' + esc(r.id) + '" style="' +
+        (r.id === state.selectedId ? "border-color:var(--violet);color:var(--violet);background:rgba(91,68,212,.06)" : "") +
+        '">' + esc(r.shortLabel || r.category) + "</button>";
+    }).join("");
+    Array.prototype.forEach.call($("use-tabs").children, function (b) {
+      b.onclick = function () { state.selectedId = b.dataset.id; renderUse(); };
+    });
+
+    var r = current();
+    $("use-outputs").innerHTML = D.OUTPUTS.map(function (o) {
+      var v = evaluateReuse(r, o);
+      var blocked = v.level === "block";
+      var checks = [
+        { label: "Source attached", ok: r.hasSourceMaterial },
+        { label: "Permission checked", ok: !(o.requiresPublic && r.useControls.permission !== "Public use") },
+        { label: "Approval checked", ok: r.useControls.approvalStatus === "Ready to use" },
+        { label: "Claim scope preserved", ok: true }
+      ];
+      return '<div class="output">' +
+        "<header><div><h3>" + esc(o.label) + '</h3><div class="team">' + esc(o.team) + "</div></div>" +
+          chip(blocked ? "Blocked" : (v.level === "warn" ? "Check before use" : "Cleared"),
+               blocked ? "yellow" : (v.level === "warn" ? "yellow" : "green")) +
+        "</header>" +
+        '<p class="note" style="margin:.7rem 0 0">' + esc(o.purpose) + "</p>" +
+        (blocked
+          ? '<div class="reasons block"><p style="margin:0 0 .3rem;font-size:.72rem;font-weight:600">Not generated — governance check failed:</p><ul>' +
+            v.reasons.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>"
+          : '<div class="body">' + esc(generateOutput(r, o)) + "</div>" +
+            '<div class="checks">' + checks.map(function (c) {
+              return '<span class="check' + (c.ok ? "" : " fail") + '">' +
+                (c.ok ? "&#10003;" : "&#10007;") + " " + esc(c.label) + "</span>";
+            }).join("") + "</div>" +
+            (v.reasons.length
+              ? '<div class="reasons"><p style="margin:0 0 .3rem;font-size:.72rem;font-weight:600">Held back / flagged:</p><ul>' +
+                v.reasons.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>"
+              : "")) +
+        "</div>";
+    }).join("");
+  }
+
+  /* ---- library ---- */
+  var filters = {};
+  function renderLibrary() {
+    if (!$("lib-filters").children.length) {
+      $("lib-filters").innerHTML = D.FILTER_GROUPS.map(function (g, i) {
+        return '<label><span class="micro">' + esc(g.label) + "</span>" +
+          '<select data-i="' + i + '" style="margin-top:.4rem"><option value="">All</option>' +
+          g.options.map(function (o) { return '<option>' + esc(o) + "</option>"; }).join("") +
+          "</select></label>";
+      }).join("");
+      Array.prototype.forEach.call($("lib-filters").querySelectorAll("select"), function (s) {
+        s.onchange = function () { filters[s.dataset.i] = s.value; paintLibrary(); };
+      });
+    }
+    paintLibrary();
+  }
+  function paintLibrary() {
+    var out = D.PROOF_RECORDS.filter(function (r) {
+      var tags = D.RECORD_FILTER_TAGS[r.id] || {};
+      var f = filters;
+      if (f["0"] && tags.priority !== f["0"]) return false;
+      if (f["1"] && tags.problem !== f["1"]) return false;
+      if (f["2"] && r.vertical !== f["2"]) return false;
+      if (f["3"] && r.useControls.approvalStatus !== f["3"]) return false;
+      if (f["4"] && r.useControls.permission !== f["4"]) return false;
+      if (f["5"] && r.useControls.customerLoad !== f["5"]) return false;
+      return true;
+    });
+    $("lib-count").textContent = out.length + " of " + D.PROOF_RECORDS.length + " records";
+    $("lib-results").innerHTML = out.length ? out.map(function (r) {
+      return '<div class="lib-card">' +
+        '<div style="display:flex;justify-content:space-between;gap:1rem;align-items:flex-start">' +
+          "<h3>" + esc(r.category) + "</h3>" + chip(readinessLabel(r), isPublicUseReady(r) ? "green" : "grey") +
+        "</div>" +
+        '<p class="note" style="margin:.6rem 0 0;color:var(--plum);font-size:.82rem">' +
+          esc(r.approvedProof) + "</p>" +
+        '<div class="chips">' +
+          chip(r.useControls.approvalStatus, approvalTone(r.useControls.approvalStatus)) +
+          chip(r.useControls.permission, permissionTone(r.useControls.permission)) +
+          chip(r.useControls.customerLoad, "grey") +
+          chip("Reused " + r.reuseCount + "×", "grey") +
+        "</div></div>";
+    }).join("") : '<p class="note">No records match these filters.</p>';
+  }
+
+  /* ---- metrics + expansion (static) ---- */
+  function renderStaticViews() {
+    $("metrics-grid").innerHTML = D.METRICS.map(function (m) {
+      return '<div class="metric"><div class="micro">' + esc(m.label) + "</div>" +
+        '<div class="val">' + esc(m.value) + "</div>" +
+        '<p class="note" style="margin:0">' + esc(m.definition) + "</p></div>";
+    }).join("");
+
+    $("exp-where").textContent = D.EXPANSION_WHERE_IT_COULD_GO;
+    $("exp-summary").innerHTML = '<div class="micro">Today</div>' +
+      D.EXPANSION_SUMMARY.map(function (p) {
+        return '<p style="font-size:.85rem;line-height:1.65;margin:.6rem 0 0">' + esc(p) + "</p>";
+      }).join("");
+    $("exp-sections").innerHTML = D.EXPANSION_SECTIONS.map(function (s) {
+      return '<div class="exp"><h3>' + esc(s.title) + "</h3>" +
+        s.body.map(function (b) { return "<p>" + esc(b) + "</p>"; }).join("") +
+        (s.objective ? '<p class="obj"><strong>Objective:</strong> ' + esc(s.objective) + "</p>" : "") +
+        "</div>";
+    }).join("");
+    $("exp-closing").textContent = D.EXPANSION_CLOSING;
+    $("foot-disclaimer").textContent = D.SAMPLE_DISCLAIMER_GLOBAL;
+  }
+
+  /* ---- wiring ---- */
+  $("nav").innerHTML = VIEWS.map(function (v) {
+    return '<a href="#/' + v.hash + '" data-hash="' + v.hash + '">' + v.label + "</a>";
+  }).join("");
+
+  $("run-sample").onclick = function () {
+    state.usedOwnNotes = false; state.customRecord = null; state.generated = false;
+    if (current().source === "notes") state.selectedId = D.PROOF_RECORDS[0].id;
+    go("create");
+  };
+  $("own-notes").oninput = function () {
+    var n = this.value.trim().length;
+    $("own-count").textContent = n + " characters · 40 minimum";
+    $("run-own").disabled = n < 40;
+  };
+  $("run-own").onclick = function () {
+    state.customRecord = scriptedExtract($("own-notes").value.trim());
+    state.selectedId = state.customRecord.id;
+    state.usedOwnNotes = true; state.generated = false;
+    go("create");
+  };
+  $("to-record").onclick = function () { go("record"); };
+  $("back-start").onclick = function () {
+    state.generated = false; state.customRecord = null; state.usedOwnNotes = false;
+    state.selectedId = D.PROOF_RECORDS[0].id; go("start");
+  };
+  $("to-use").onclick = function () { go("use"); };
+
+  window.addEventListener("hashchange", render);
+  renderStaticViews();
+  render();
+})();
+</script>
+</body>
+</html>

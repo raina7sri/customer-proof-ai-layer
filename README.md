@@ -4,7 +4,8 @@
 
 Customer proof lives in transcripts, QBR notes, call excerpts, and team memory — unstructured, unapproved, and impossible to reuse safely. This is a governance layer that turns that raw material into **Customer Proof Records** GTM teams can search, approve, measure, and reuse.
 
-**Live demo:** https://customer-proof-ai-layer.lovable.app
+**Live demo (static):** https://raina7sri.github.io/customer-proof-ai-layer/
+**Live demo (full app, with AI extraction):** https://customer-proof-ai-layer.lovable.app
 
 > **AI structures and adapts customer proof. Humans approve what is true, current, commercially useful, and safe to use.**
 
@@ -84,6 +85,42 @@ Governance defaults are enforced in code, not left to the model — see [`src/li
 **Sample data — category-referenced synthetic examples. Not real customer claims.** The five sample records (enterprise payments, agentic commerce, AI infrastructure, CRM, enterprise AI) are illustrative, and no sample is the primary use case.
 
 Notes you paste into the app are not stored. They are sent to the extraction model, structured into a record, and held in browser state for the session only.
+
+## Two builds
+
+This repo ships the tool twice, on purpose.
+
+| | `docs/` — static | `src/` — full app |
+| --- | --- | --- |
+| Hosting | GitHub Pages | Lovable (SSR) |
+| Stack | One HTML file + `records.js`, no build | TanStack Start, React 19, Nitro |
+| Own-notes path | Scripted: applies the governance defaults in the browser | Live model extraction via the Lovable AI Gateway |
+| Network calls | None at all | Server function → AI gateway |
+| Cost to run | Zero, forever | Hosting + AI credits |
+
+The static build in [`docs/`](docs/) is the one to link to. It follows the same pattern as the
+[AI Visibility Scorecard](https://github.com/raina7sri/ai-visibility-scorecard): a single page
+that runs entirely in the browser over a dataset you can edit, so it can't rot, can't run up a
+bill, and works offline or opened straight from disk.
+
+`docs/records.js` is generated from [`src/data/proof-records.ts`](src/data/proof-records.ts) so
+the two builds can't drift:
+
+```sh
+node --experimental-strip-types -e "import('./src/data/proof-records.ts').then(m => { /* see docs/records.js header */ })"
+```
+
+The governance rules in `docs/index.html` are a direct port of
+[`src/lib/governance.ts`](src/lib/governance.ts). If you change one, change the other.
+
+### What the static build does instead of AI
+
+The own-notes path can't call a model — there's no server and an API key can't ship in client
+JavaScript. So it demonstrates the half that was never the model's job anyway: the conservative
+defaults that live in code. Paste notes containing an unapproved quantified outcome and it will
+pull the claim out of approved proof and list it as an exclusion with its reason, exactly as
+[`extract.server.ts`](src/lib/extract.server.ts) guards real model output. Records created this
+way always start at `Private use` / `Internal review`.
 
 ## Tech stack
 
